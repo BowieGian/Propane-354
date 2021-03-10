@@ -6,9 +6,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///propane354.db'
 db = SQLAlchemy(app)
 
-class Employee(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    #~~~Finish Employee Columns Here~~~
+#class Employee(db.Model):
+#    id = db.Column(db.Integer, primary_key=True)
+#    #~~~Finish Employee Columns Here~~~
 
 @app.route('/', methods=['get', 'post'])
 def index():
