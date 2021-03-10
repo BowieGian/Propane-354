@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Login</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Propane 354 Login</h1>
+
+    <div class="form">
+        <form action="/" method="post" style="text-align: center">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username"> <br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password"> <br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</div>
+{% endblock %}
