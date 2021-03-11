@@ -45,7 +45,61 @@ def main():
             FOREIGN KEY (employee_id) REFERENCES employee (id)
         );
     '''
-    
+
+    sql_create_customer = '''
+        CREATE TABLE IF NOT EXISTS customer(
+            email text PRIMARY KEY,
+            company text,
+            credit_limit integer,
+            first_name text,
+            last_name text,
+            suffix text,
+            unit_number integer,
+            street_number integer,
+            suburb text,
+            postal_code text
+        );
+    '''
+    sql_create_customer_phone_number = '''
+        CREATE TABLE IF NOT EXISTS customer_phone_number(
+            customer_email text,
+            phone_number integer,
+            PRIMARY KEY (customer_email, phone_number),
+            FOREIGN KEY (customer_email) REFERENCES customer (email)
+        );
+    '''
+
+    sql_create_propane_tank = '''
+        CREATE TABLE IF NOT EXISTS propane_tank(
+            serial_number text PRIMARY KEY,
+            expiration_date text,
+            quick_fill text,
+            form_factor text,
+            tare_weight text,
+            water_capacity text,
+            DOT_TCStamp text,
+            liquid_vapor text,
+            rust_level text,
+            production_date text,
+            last_visual_check_date text,
+            type_of_tank text,
+            sold_by_employee_id int,
+            sold_to_customer_email text,
+            sell_date text,
+            FOREIGN KEY (sold_by_employee_id) REFERENCES employee (id),
+            FOREIGN KEY (sold_to_customer_email) REFERENCES customer (email)
+        );
+    '''
+
+    sql_create_truck = '''
+        CREATE TABLE IF NOT EXISTS truck(
+            vin int PRIMARY KEY,
+            license_plate_number text,
+            capacity int,
+            passenger_limit int
+        )
+    '''
+
     # connect to database
     connection = create_connection(database)
     
@@ -60,4 +114,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-    
+
