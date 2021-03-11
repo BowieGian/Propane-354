@@ -52,6 +52,65 @@ def insert_employee_qualification(connection, values):
     '''
     insert(connection, sql, values)
 
+def insert_customer(connection, values):
+    sql = '''
+        INSERT INTO customer(
+            email,
+            company,
+            credit_limit,
+            first_name,
+            last_name,
+            suffix,
+            unit_number,
+            street_number,
+            suburb,
+            postal_code
+        )
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    '''
+
+def insert_customer_phone_number(connection, values):
+    sql = ''' 
+        INSERT INTO customer_phone_number(
+            customer_email,
+            phone_number
+        )
+        VALUES(?, ?)
+    '''
+
+def insert_propane_tank(connection, values):
+    sql = '''
+        INSERT INTO propane_tank(
+            serial_number,
+            expiration_date,
+            quick_fill,
+            form_factor,
+            tare_weight,
+            water_capacity,
+            DOT_TCStamp,
+            liquid_vapor,
+            rust_level,
+            production_date,
+            last_visual_check_date,
+            type_of_tank,
+            sold_by_employee_id,
+            sold_to_customer_email,
+            sell_date
+        )
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    '''
+
+def insert_truck(connection, values):
+    sql = ''' 
+        INSERT INTO truck(
+            vin,
+            license_plate_number,
+            capacity,
+            passenger_limit
+        )
+        VALUES(?, ?, ?, ?)
+    '''
+
 def main():
     database = 'propane354.db'
 
