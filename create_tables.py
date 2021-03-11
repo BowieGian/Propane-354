@@ -56,6 +56,65 @@ def create_tables(connection):
         );
     '''
 
+    create_table_sql['customer'] = '''
+        CREATE TABLE IF NOT EXISTS customer(
+            email text PRIMARY KEY,
+            company text,
+            credit_limit integer,
+            first_name text,
+            last_name text,
+            suffix text,
+            unit_number integer,
+            street_number integer,
+            suburb text,
+            postal_code text
+        );
+    '''
+    
+    create_table_sql['customer_phone_number'] = '''
+        CREATE TABLE IF NOT EXISTS customer_phone_number(
+            customer_email text,
+            phone_number integer,
+            PRIMARY KEY (customer_email, phone_number),
+            FOREIGN KEY (customer_email) REFERENCES customer (email)
+        );
+    '''
+
+    create_table_sql['propane_tank'] = '''
+        CREATE TABLE IF NOT EXISTS propane_tank(
+            serial_number int PRIMARY KEY,
+            manufacturer text, 
+            expiration_date text,
+            quick_fill text,
+            form_factor text,
+            tare_weight text,
+            water_capacity text,
+            DOT_TCStamp text,
+            liquid_vapor text,
+            rust_level text,
+            production_date text,
+            last_visual_check_date text,
+            type_of_tank text,
+            sold_by_employee_id int,
+            sold_to_customer_email text,
+            sell_date text,
+            FOREIGN KEY (sold_by_employee_id)
+                REFERENCES employee (id),
+            FOREIGN KEY (sold_to_customer_email)
+                REFERENCES customer (email)
+        );
+    '''
+ 
+    create_table_sql['truck'] = '''
+        CREATE TABLE IF NOT EXISTS truck(
+            vin int PRIMARY KEY,
+            license_plate_number text,
+            capacity int,
+            passenger_limit int
+        )
+    '''
+
+
     create_table_sql['work_order'] = '''
         CREATE TABLE IF NOT EXISTS work_order(
             order_number integer,
@@ -65,7 +124,7 @@ def create_tables(connection):
             order_status text,
             payment_method text,
             rush_level integer,
-            order_date text;
+            order_date text,
             po_number integer,
             expected_completion_date text,
             PRIMARY KEY(
@@ -81,11 +140,11 @@ def create_tables(connection):
     '''
 
     create_table_sql['work_order_propane_tank'] = '''
-        CREATE TABLE IF NOT EXISTS work_order(
+        CREATE TABLE IF NOT EXISTS work_order_propane_tank(
             work_order_number integer,
             propane_tank_serial_number integer,
             PRIMARY KEY(
-                order_number,
+                work_order_number,
                 propane_tank_serial_number
             ),
             FOREIGN KEY (work_order_number)
@@ -105,15 +164,12 @@ def create_tables(connection):
             PRIMARY KEY (
                 employee_id,
                 customer_email,
-                propane_tank_serial_number,
                 vin
             ),
             FOREIGN KEY (employee_id)
                 REFERENCES employee (id),
             FOREIGN KEY (customer_email)
                 REFERENCES customer (email),
-            FOREIGN KEY (propane_tank_serial_number)
-                REFERENCES propane_tank (serial_number),
             FOREIGN KEY (vin)
                 REFERENCES truck (vin)
         );
@@ -124,10 +180,10 @@ def create_tables(connection):
 
 
 def delete_tables(connection):
-    # hard 
     tables = [
         'employee', 'employee_qualification', 'employee_availability',
-        'work_order', 'work_order_propane_tank', 'delivery'
+        'work_order', 'work_order_propane_tank', 'delivery', 'customer',
+        'customer_phone_number', 'propane_tank', 'truck'
     ]
 
     delete_table_sql = [f'DROP TABLE IF EXISTS {table};' for table in tables]
@@ -141,8 +197,8 @@ def main():
     connection = create_connection(database)
     
     if (connection):
-        create_tables(connection)
         # delete_tables(connection)
+        create_tables(connection)
     else:
         print('Failed to create database connection.')
 
