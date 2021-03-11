@@ -52,9 +52,9 @@ def insert_employee_qualification(connection, values):
     '''
     insert(connection, sql, values)
 
-@app.route('/', methods=['get', 'post'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'post':
+    if request.method == 'POST':
         username = request.form['username']
         id = request.form['id']
 
@@ -72,13 +72,10 @@ def index():
 
             # find if login exists
             cursor = connection.cursor()
-            cursor.execute('SELECT * FROM employee WHERE first_name = ? AND id = ?', (username, id,))
-            loggedInUser = cursor.fetchone()
-            
-            if loggedInUser is None:
-                return redirect('/')
-            else:
+            if cursor.execute('SELECT id FROM employee WHERE first_name = ? AND id = ?', (username, id,)).fetchone():
                 return "Logged in!"
+            else:
+                return redirect('/')
         else:
             return "Failed to create database connection."
 
