@@ -52,6 +52,62 @@ def insert_employee_qualification(connection, values):
     '''
     insert(connection, sql, values)
 
+
+def insert_employee_availability(connection, values):
+    sql = '''
+        INSERT INTO employee_availability(
+            employee_id,
+            availability
+        )
+        VALUES(?, ?);
+    '''
+    insert(connection, sql, values)
+
+
+def insert_work_order(connection, values):
+    sql = '''
+        INSERT INTO work_order(
+            order_number,
+            employee_id,
+            customer_email,
+            order_total,
+            order_status,
+            payment_method,
+            rush_level,
+            order_date,
+            po_number,
+            expected_completion_date
+        )
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?,);
+    '''
+    insert(connection, sql, values)
+
+
+def insert_work_order_propane_tank(connection, values):
+    sql = '''
+        INSERT INTO work_order_propane_tank(
+            work_order_number,
+            propane_tank_serial_number
+        )
+        VALUES(?, ?);
+    '''
+    insert(connection, sql, values)
+
+
+def insert_delivery(connection, values):
+    sql = '''
+        INSERT INTO delivery(
+            employee_id,
+            customer_email,
+            serial_number,
+            vin,
+            delivery_date
+        )
+        VALUES(?, ?, ?, ?, ?);
+    '''
+    insert(connection, sql, values)
+
+
 def main():
     database = 'propane354.db'
 
