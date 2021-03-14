@@ -91,7 +91,7 @@ def create_tables(connection):
             tare_weight text NOT NULL,
             water_capacity text NOT NULL,
             liquid_vapor text NOT NULL,
-            rust_level text,
+            rust_level integer,
             production_date text,
             last_visual_check_date text,
             type_of_tank text NOT NULL,
@@ -191,14 +191,16 @@ def create_tables(connection):
 
 
 def delete_tables(connection):
-    tables = [
+    table_names = [
         'employee', 'employee_qualification', 'employee_availability',
         'work_order', 'work_order_employee', 'work_order_propane_tank',
         'delivery', 'customer', 'customer_phone_number', 'propane_tank',
         'truck'
     ]
 
-    delete_table_sql = [f'DROP TABLE IF EXISTS {table};' for table in tables]
+    delete_table_sql = [
+        f'DROP TABLE IF EXISTS {table_name};' for table_name in table_names
+    ]
     
     for sql in delete_table_sql:
         execute_sql(connection, sql)
