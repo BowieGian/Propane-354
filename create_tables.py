@@ -28,20 +28,21 @@ def create_tables(connection):
 
     create_table_sql['employee'] = '''
         CREATE TABLE IF NOT EXISTS employee(
-            id integer PRIMARY KEY AUTOINCREMENT,
-            first_name text, 
-            last_name text, 
-            suffix text, 
-            start_date text, 
-            salary integer, 
-            position text
+            id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+            email text NOT NULL UNIQUE,
+            first_name text NOT NULL, 
+            last_name text NOT NULL, 
+            suffix text NOT NULL, 
+            start_date text NOT NULL, 
+            salary integer NOT NULL, 
+            position text NOT NULL
         );
     '''
 
     create_table_sql['employee_qualification'] = '''
         CREATE TABLE IF NOT EXISTS employee_qualification(
-            employee_id integer,
-            qualification text,
+            employee_id integer NOT NULL,
+            qualification text NOT NULL,
             PRIMARY KEY (employee_id, qualification),
             FOREIGN KEY (employee_id) REFERENCES employee (id)
         );
@@ -49,8 +50,8 @@ def create_tables(connection):
 
     create_table_sql['employee_availability'] = '''
         CREATE TABLE IF NOT EXISTS employee_availability(
-            employee_id integer,
-            availability text,
+            employee_id integer NOT NULL,
+            availability text NOT NULL,
             PRIMARY KEY (employee_id, availability),
             FOREIGN KEY (employee_id) REFERENCES employee (id)
         );
@@ -58,23 +59,23 @@ def create_tables(connection):
 
     create_table_sql['customer'] = '''
         CREATE TABLE IF NOT EXISTS customer(
-            email text PRIMARY KEY,
-            company text,
-            credit_limit integer,
-            first_name text,
-            last_name text,
-            suffix text,
-            unit_number integer,
-            street_number integer,
-            suburb text,
-            postal_code text
+            email text PRIMARY KEY NOT NULL,
+            company text NOT NULL,
+            credit_limit integer NOT NULL,
+            first_name text NOT NULL,
+            last_name text NOT NULL,
+            suffix text NOT NULL,
+            unit_number integer NOT NULL,
+            street_number integer NOT NULL,
+            suburb text NOT NULL,
+            postal_code text NOT NULL
         );
     '''
     
     create_table_sql['customer_phone_number'] = '''
         CREATE TABLE IF NOT EXISTS customer_phone_number(
-            customer_email text,
-            phone_number integer,
+            customer_email text NOT NULL,
+            phone_number integer NOT NULL,
             PRIMARY KEY (customer_email, phone_number),
             FOREIGN KEY (customer_email) REFERENCES customer (email)
         );
@@ -82,19 +83,18 @@ def create_tables(connection):
 
     create_table_sql['propane_tank'] = '''
         CREATE TABLE IF NOT EXISTS propane_tank(
-            serial_number int PRIMARY KEY,
-            manufacturer text, 
-            expiration_date text,
-            quick_fill text,
-            form_factor text,
-            tare_weight text,
-            water_capacity text,
-            DOT_TCStamp text,
-            liquid_vapor text,
+            serial_number int PRIMARY KEY NOT NULL,
+            manufacturer text NOT NULL, 
+            expiration_date text NOT NULL,
+            quick_fill text NOT NULL,
+            form_factor text NOT NULL,
+            tare_weight text NOT NULL,
+            water_capacity text NOT NULL,
+            liquid_vapor text NOT NULL,
             rust_level text,
             production_date text,
             last_visual_check_date text,
-            type_of_tank text,
+            type_of_tank text NOT NULL,
             sold_by_employee_id int,
             sold_to_customer_email text,
             sell_date text,
@@ -107,25 +107,25 @@ def create_tables(connection):
  
     create_table_sql['truck'] = '''
         CREATE TABLE IF NOT EXISTS truck(
-            vin int PRIMARY KEY,
-            license_plate_number text,
-            capacity int,
-            passenger_limit int
+            vin int PRIMARY KEY NOT NULL,
+            license_plate_number text NOT NULL,
+            capacity int NOT NULL,
+            passenger_limit int NOT NULL
         )
     '''
 
 
     create_table_sql['work_order'] = '''
         CREATE TABLE IF NOT EXISTS work_order(
-            order_number integer,
-            customer_email text,
-            order_total integer,
-            order_status text,
-            payment_method text,
-            rush_level integer,
-            order_date text,
-            po_number integer,
-            expected_completion_date text,
+            order_number integer NOT NULL,
+            customer_email text NOT NULL,
+            order_total integer NOT NULL,
+            order_status text NOT NULL,
+            payment_method text NOT NULL,
+            rush_level text NOT NULL,
+            order_date text NOT NULL,
+            po_number integer NOT NULL,
+            expected_completion_date text NOT NULL,
             PRIMARY KEY(
                 order_number,
                 customer_email
@@ -137,8 +137,8 @@ def create_tables(connection):
 
     create_table_sql['work_order_employee'] = '''
         CREATE TABLE IF NOT EXISTS work_order_employee(
-            work_order_number integer,
-            employee_id integer,
+            work_order_number integer NOT NULL,
+            employee_id integer NOT NULL,
             PRIMARY KEY(
                 work_order_number,
                 employee_id
@@ -152,8 +152,8 @@ def create_tables(connection):
 
     create_table_sql['work_order_propane_tank'] = '''
         CREATE TABLE IF NOT EXISTS work_order_propane_tank(
-            work_order_number integer,
-            propane_tank_serial_number integer,
+            work_order_number integer NOT NULL,
+            propane_tank_serial_number integer NOT NULL,
             PRIMARY KEY(
                 work_order_number,
                 propane_tank_serial_number
@@ -167,11 +167,11 @@ def create_tables(connection):
 
     create_table_sql['delivery'] = '''
         CREATE TABLE IF NOT EXISTS delivery(
-            employee_id integer,
-            customer_email text,
-            serial_number integer,
-            vin text,
-            delivery_date text,
+            employee_id integer NOT NULL,
+            customer_email text NOT NULL,
+            serial_number integer NOT NULL,
+            vin text NOT NULL,
+            delivery_date text NOT NULL,
             PRIMARY KEY (
                 employee_id,
                 customer_email,
@@ -209,7 +209,7 @@ def main():
     connection = create_connection(database)
     
     if (connection):
-        # delete_tables(connection)
+        delete_tables(connection)
         create_tables(connection)
     else:
         print('Failed to create database connection.')
