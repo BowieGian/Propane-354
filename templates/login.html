@@ -10,8 +10,13 @@
 
     <div class="form">
         <form action="/" method="POST" style="text-align: center">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username"> <br>
+            <label for="first_name">First Name:</label> <br>
+            <select name="first_name" id="first_name">
+                <option value="Select">Select</option>
+                {% for employee in employees %}
+                    <option value="{{ employee[0] }}">{{ employee[0] }}</option>
+                {% endfor %}
+            </select> <br>
             <label for="id">ID:</label>
             <input type="password" name="id" id="id"> <br>
             <input type="submit" value="Login">
