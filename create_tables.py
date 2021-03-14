@@ -118,7 +118,6 @@ def create_tables(connection):
     create_table_sql['work_order'] = '''
         CREATE TABLE IF NOT EXISTS work_order(
             order_number integer,
-            employee_id integer,
             customer_email text,
             order_total integer,
             order_status text,
@@ -129,13 +128,25 @@ def create_tables(connection):
             expected_completion_date text,
             PRIMARY KEY(
                 order_number,
-                employee_id,
                 customer_email
             ),
-            FOREIGN KEY (employee_id)
-                REFERENCES employee (id),
             FOREIGN KEY(customer_email)
                 REFERENCES customer (email) 
+        );
+    '''
+
+    create_table_sql['work_order_employee'] = '''
+        CREATE TABLE IF NOT EXISTS work_order_employee(
+            work_order_number integer,
+            employee_id integer,
+            PRIMARY KEY(
+                work_order_number,
+                employee_id
+            ),
+            FOREIGN KEY (work_order_number)
+                REFERENCES work_order (order_number),
+            FOREIGN KEY (employee_id)
+                REFERENCES employee (id)
         );
     '''
 
@@ -182,8 +193,9 @@ def create_tables(connection):
 def delete_tables(connection):
     tables = [
         'employee', 'employee_qualification', 'employee_availability',
-        'work_order', 'work_order_propane_tank', 'delivery', 'customer',
-        'customer_phone_number', 'propane_tank', 'truck'
+        'work_order', 'work_order_employee', 'work_order_propane_tank',
+        'delivery', 'customer', 'customer_phone_number', 'propane_tank',
+        'truck'
     ]
 
     delete_table_sql = [f'DROP TABLE IF EXISTS {table};' for table in tables]
