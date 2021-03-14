@@ -80,13 +80,20 @@ def index():
 
         # find if login exists
         if cursor.execute('SELECT id FROM employee WHERE first_name = ? AND id = ?', (first_name, id,)).fetchone():
-            return "Logged in!"
+            return redirect(url_for('home'))
         else:
             return redirect('/')
 
     else:
         employees = cursor.execute('SELECT first_name FROM employee').fetchall();
         return render_template('login.html', employees=employees)
+
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        return render_template('home.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
