@@ -30,6 +30,7 @@ def insert(connection, sql, values):
 def insert_employee(connection, values):
     sql = '''
         INSERT INTO employee(
+            email,
             first_name, 
             last_name, 
             suffix, 
@@ -37,7 +38,7 @@ def insert_employee(connection, values):
             salary, 
             position
         )
-        VALUES(?, ?, ?, ?, ?, ?);
+        VALUES(?, ?, ?, ?, ?, ?, ?);
     '''
     insert(connection, sql, values)
 
@@ -115,19 +116,29 @@ def main():
     
     if (connection):
         # insert an employee into the `employee` table  
-        employee1 = ('John', 'Doe', 'SomeSuffix', '2021-03-05', 42000, 'Laborer')
+        employee1 = ('johndoe@gmail.com', 'John', 'Doe', 'SomeSuffix', '2021-03-05', 42000, 'Laborer')
         insert_employee(connection, employee1)
 
         # insert a qualification into the `employee_qualification` table
         employee1_qualifications = (1, 'Certified Inspector')
         insert_employee_qualification(connection, employee1_qualifications)
 
-        # view tables - uncomment line in the insert function to commit changes
-        employee = pd.read_sql('SELECT * FROM employee;', connection)
-        employee_qualifications = pd.read_sql('SELECT * FROM employee_qualification', connection)
+        # view all tables - uncomment line in the insert function to commit changes
+        table_names = [
+            'employee', 'employee_qualification', 'employee_availability',
+            'work_order', 'work_order_employee', 'work_order_propane_tank',
+            'delivery', 'customer', 'customer_phone_number', 'propane_tank',
+            'truck'
+        ]
 
-        print('Employee:\n', employee, '\n', sep='')
-        print('Employee Qualifications:\n', employee_qualifications, sep='')
+        tables = {}
+        for table_name in table_names:
+            tables[table_name] = pd.read_sql(
+                f'SELECT * FROM {table_name};',
+                connection
+            )
+            print(tables[table_name])
+            print()
     else:
         print("Failed to create database connection.")
 
