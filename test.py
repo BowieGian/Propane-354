@@ -68,6 +68,7 @@ def insert_customer(connection, values):
         )
         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     '''
+    insert(connection, sql, values)
 
 def insert_customer_phone_number(connection, values):
     sql = ''' 
@@ -77,6 +78,7 @@ def insert_customer_phone_number(connection, values):
         )
         VALUES(?, ?)
     '''
+    insert(connection, sql, values)
 
 def insert_propane_tank(connection, values):
     sql = '''
@@ -87,7 +89,6 @@ def insert_propane_tank(connection, values):
             form_factor,
             tare_weight,
             water_capacity,
-            DOT_TCStamp,
             liquid_vapor,
             rust_level,
             production_date,
@@ -99,6 +100,7 @@ def insert_propane_tank(connection, values):
         )
         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     '''
+    insert(connection, sql, values)
 
 def insert_truck(connection, values):
     sql = ''' 
@@ -110,6 +112,7 @@ def insert_truck(connection, values):
         )
         VALUES(?, ?, ?, ?)
     '''
+    insert(connection, sql, values)
 
 def main():
     database = 'propane354.db'
@@ -125,12 +128,21 @@ def main():
         employee1_qualifications = (1, 'Certified Inspector')
         insert_employee_qualification(connection, employee1_qualifications)
 
+        # insert a customer into the `customer` table
+        customer1 = ('JohnSmith@bigCompany.com', 'bigCompany', 2500, 'John', 'Smith', 'Sr.', 125, 25, 'Big St.', '555 555')  
+        insert_customer(connection, customer1)
+        customer2 = customer2 = ('WalterBiggins@smallCompany.com', 'smallCompany', 1500, 'Walter', 'Biggins', None, 493, 29, 'White Ave.', '934 135')  
+        insert_customer(connection, customer2)
+
         # view tables - uncomment line in the insert function to commit changes
         employee = pd.read_sql('SELECT * FROM employee;', connection)
         employee_qualifications = pd.read_sql('SELECT * FROM employee_qualification', connection)
+        customer = pd.read_sql('SELECT * FROM customer', connection)
 
         print('Employee:\n', employee, '\n', sep='')
         print('Employee Qualifications:\n', employee_qualifications, sep='')
+        print('Customer:\n', customer, '\n', sep='')
+
     else:
         print("Failed to create database connection.")
 

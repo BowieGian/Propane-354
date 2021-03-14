@@ -56,7 +56,7 @@ def create_tables(connection):
         );
     '''
 
-    sql_create_customer = '''
+    create_table_sql['customer'] = '''
         CREATE TABLE IF NOT EXISTS customer(
             email text PRIMARY KEY,
             company text,
@@ -70,7 +70,7 @@ def create_tables(connection):
             postal_code text
         );
     '''
-    sql_create_customer_phone_number = '''
+    create_table_sql['customer_phone_number'] = '''
         CREATE TABLE IF NOT EXISTS customer_phone_number(
             customer_email text,
             phone_number integer,
@@ -79,7 +79,7 @@ def create_tables(connection):
         );
     '''
 
-    sql_create_propane_tank = '''
+    create_table_sql['propane_tank'] = '''
         CREATE TABLE IF NOT EXISTS propane_tank(
             serial_number text PRIMARY KEY,
             expiration_date text,
@@ -87,7 +87,6 @@ def create_tables(connection):
             form_factor text,
             tare_weight text,
             water_capacity text,
-            DOT_TCStamp text,
             liquid_vapor text,
             rust_level text,
             production_date text,
@@ -101,7 +100,7 @@ def create_tables(connection):
         );
     '''
 
-    sql_create_truck = '''
+    create_table_sql['truck'] = '''
         CREATE TABLE IF NOT EXISTS truck(
             vin int PRIMARY KEY,
             license_plate_number text,
@@ -181,7 +180,8 @@ def create_tables(connection):
 def delete_tables(connection):
     # hard 
     tables = [
-        'employee', 'employee_qualification', 'employee_availability',
+        'employee', 'employee_qualification', 'employee_availability', 
+        'customer', 'customer_phone_number', 'propane_tank', 'truck',
         'work_order', 'work_order_propane_tank', 'delivery'
     ]
 
