@@ -95,5 +95,47 @@ def home():
     else:
         return render_template('home.html')
 
+@app.route('/inventory', methods=['GET', 'POST'])
+def inventory():
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        return render_template('inventory.html')
+
+@app.route('/work-order', methods=['GET', 'POST'])
+def workOrder():
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        return render_template('work-order.html')
+
+@app.route('/employee-list', methods=['GET', 'POST'])
+def employeeList():
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        return render_template('employee-list.html')
+
+@app.route('/customers', methods=['GET', 'POST'])
+def customers():
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        return render_template('customers.html')
+
+@app.route('/vehicles', methods=['GET', 'POST'])
+def vehicles():
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        return render_template('vehicles.html')
+
+@app.route('/calendar', methods=['GET', 'POST'])
+def calendar():
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        return render_template('calendar.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
