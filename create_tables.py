@@ -2,17 +2,7 @@
 # https://www.sqlitetutorial.net/sqlite-python/create-tables/
 import sqlite3
 from sqlite3 import Error
-
-
-def create_connection(db_file):
-    connection = None
-    try:
-        connection = sqlite3.connect(db_file)
-        return connection
-    except Error as e:
-        print(e)
-
-    return connection
+from our_sql import create_connection
 
 
 def execute_sql(connection, sql):
@@ -32,7 +22,7 @@ def create_tables(connection):
             email text NOT NULL UNIQUE,
             first_name text NOT NULL, 
             last_name text NOT NULL, 
-            suffix text NOT NULL, 
+            honorific text NOT NULL, 
             start_date text NOT NULL, 
             salary integer NOT NULL, 
             position text NOT NULL
@@ -64,7 +54,7 @@ def create_tables(connection):
             credit_limit integer NOT NULL,
             first_name text NOT NULL,
             last_name text NOT NULL,
-            suffix text NOT NULL,
+            honorific text,
             unit_number integer NOT NULL,
             street_number integer NOT NULL,
             suburb text NOT NULL,
@@ -83,13 +73,13 @@ def create_tables(connection):
 
     create_table_sql['propane_tank'] = '''
         CREATE TABLE IF NOT EXISTS propane_tank(
-            serial_number int PRIMARY KEY NOT NULL,
+            serial_number text PRIMARY KEY NOT NULL,
             manufacturer text NOT NULL, 
             expiration_date text NOT NULL,
             quick_fill text NOT NULL,
             form_factor text NOT NULL,
-            tare_weight text NOT NULL,
-            water_capacity text NOT NULL,
+            tare_weight real NOT NULL,
+            water_capacity int NOT NULL,
             liquid_vapor text NOT NULL,
             rust_level integer,
             production_date text,
@@ -107,7 +97,7 @@ def create_tables(connection):
  
     create_table_sql['truck'] = '''
         CREATE TABLE IF NOT EXISTS truck(
-            vin int PRIMARY KEY NOT NULL,
+            vin text PRIMARY KEY NOT NULL,
             license_plate_number text NOT NULL,
             capacity int NOT NULL,
             passenger_limit int NOT NULL
@@ -153,7 +143,7 @@ def create_tables(connection):
     create_table_sql['work_order_propane_tank'] = '''
         CREATE TABLE IF NOT EXISTS work_order_propane_tank(
             work_order_number integer NOT NULL,
-            propane_tank_serial_number integer NOT NULL,
+            propane_tank_serial_number text NOT NULL,
             PRIMARY KEY(
                 work_order_number,
                 propane_tank_serial_number
@@ -169,7 +159,7 @@ def create_tables(connection):
         CREATE TABLE IF NOT EXISTS delivery(
             employee_id integer NOT NULL,
             customer_email text NOT NULL,
-            serial_number integer NOT NULL,
+            serial_number text NOT NULL,
             vin text NOT NULL,
             delivery_date text NOT NULL,
             PRIMARY KEY (
@@ -211,7 +201,7 @@ def main():
     connection = create_connection(database)
     
     if (connection):
-        delete_tables(connection)
+        # delete_tables(connection)
         create_tables(connection)
     else:
         print('Failed to create database connection.')
