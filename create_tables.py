@@ -115,7 +115,7 @@ def create_tables(connection):
             rush_level text NOT NULL,
             order_date text NOT NULL,
             po_number integer NOT NULL,
-            expected_completion_date text NOT NULL,
+            expected_completion_date text,
             PRIMARY KEY(
                 order_number,
                 customer_email
@@ -201,7 +201,7 @@ def main():
     connection = create_connection(database)
     
     if (connection):
-        # delete_tables(connection)
+        delete_tables(connection)
         create_tables(connection)
     else:
         print('Failed to create database connection.')

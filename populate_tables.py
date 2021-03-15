@@ -131,7 +131,11 @@ def populate_work_order_propane_tank(connection):
 
 def populate_delivery(connection):
     deliveries = [
-
+        ('12345', 2, '2BG10509500821132', 'JohnSmith@bigCompany.com', '2021-03-13'),
+        ('24680', 2, '2BG10509500821132', 'WalterBiggins@smallCompany.com', '2021-03-13'),
+        ('13579', 2, '2BG10509500821132', 'AlbertWoo@smallCompany.com', '2021-03-14'),
+        ('12460', 2, '2BG10509500821132', 'SamYang@smallCompany.com', '2021-03-15'),
+        ('00001', 2, '2BG10509500821132',  'SarahBrown@smallCompany.com', '2021-03-17')
     ]
     for delivery in deliveries:
         insert_delivery(connection, delivery)
@@ -148,6 +152,7 @@ def populate_tables(connection):
     populate_work_order(connection)
     populate_work_order_employee(connection)
     populate_work_order_propane_tank(connection)
+    populate_delivery(connection)
     
 
 def main():
