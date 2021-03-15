@@ -71,11 +71,11 @@ def populate_customer_phone(connection):
 
 def populate_propane_tank(connection):
     propane_tanks = [
-        ('12345', 'Manufacturer1', '12-08-2022', 'yes', 'tall', 4.7, 48, 'liquid', None , None, None, 'Aluminium', 1, 'JohnSmith@bigCompany.com', '13-03-2021'),
-        ('24680', 'Manufacturer1', '16-11-2023', 'yes', 'squat', 10, 64, 'vapour', None, '19-06-2020', '13-03-2021', 'Fiber', 2, 'WalterBiggins@smallCompany.com', '13-03-2021'),
-        ('13579', 'Manufacturer1', '13-01-2024', 'no', 'tall', 6, 50, 'vapour', 5, None, None, 'Steel', 3, 'AlbertWoo@smallCompany.com', '13-03-2021'),
-        ('12460', 'Manufacturer2', '22-05-2025', 'yes', 'squat', 8, 96, 'liquid', None, None, None, 'Aluminium', 4, 'SamYang@smallCompany.com', '13-03-2021'),
-        ('00001', 'Manufacturer2', '25-03-2026', 'no', 'tall', 4.7, 48, 'liquid', None, None, None, 'Aluminium', 5, 'SarahBrown@smallCompany.com', '13-03-2021')
+        ('12345', 'Manufacturer1', '2022-08-12', 'yes', 'tall', 4.7, 48, 'liquid', None , None, None, 'Aluminium', 1, 'JohnSmith@bigCompany.com', '2021-03-13'),
+        ('24680', 'Manufacturer1', '2023-11-16', 'yes', 'squat', 10, 64, 'vapour', None, '2020-06-19', '13-03-2021', 'Fiber', 2, 'WalterBiggins@smallCompany.com', '2021-03-13'),
+        ('13579', 'Manufacturer1', '2024-01-13', 'no', 'tall', 6, 50, 'vapour', 5, None, None, 'Steel', 3, 'AlbertWoo@smallCompany.com', '2021-03-13'),
+        ('12460', 'Manufacturer2', '2025-05-22', 'yes', 'squat', 8, 96, 'liquid', None, None, None, 'Aluminium', 4, 'SamYang@smallCompany.com', '2021-03-13'),
+        ('00001', 'Manufacturer2', '2026-03-25', 'no', 'tall', 4.7, 48, 'liquid', None, None, None, 'Aluminium', 5, 'SarahBrown@smallCompany.com', '2021-03-13')
     ]
     for propane_tank in propane_tanks:
         insert_propane_tank(connection, propane_tank)
@@ -93,6 +93,50 @@ def populate_truck(connection):
         insert_truck(connection, truck);
 
 
+def populate_work_order(connection):
+    work_orders = [
+        (1, 'JohnSmith@bigCompany.com', 2475, 'Complete', 'Credit', 'Express', '2021-03-04', 1234, '2021-03-05'),
+        (2, 'WalterBiggins@smallCompany.com', 759, 'In Progress', 'Cheque', 'Express', '2021-03-6', 1235, '2021-03-13'),
+        (3, 'AlbertWoo@smallCompany.com', 690, 'In Progress', 'Debit', 'Standard', '2021-03-13', 1236, '2021-03-27'),
+        (4, 'SamYang@smallCompany.com', 245, 'On Hold', 'Cash', 'Standard', '2021-03-13', 1237, None),
+        (5, 'SarahBrown@smallCompany.com', 895, 'On Hold', 'Credit', 'Standard', '2021-03-13', 1238, None)
+    ]
+    for work_order in work_orders:
+        insert_work_order(connection, work_order)
+
+
+def populate_work_order_employee(connection):
+    work_order_employees = [
+        (1, 1),
+        (2, 1),
+        (2, 2),
+        (3, 1),
+        (3, 2)
+    ]
+    for work_order_employee in work_order_employees:
+        insert_work_order_employee(connection, work_order_employee)
+
+
+def populate_work_order_propane_tank(connection):
+    work_order_propane_tanks = [
+        (1, '12345'),
+        (2, '24680'),
+        (3, '13579'),
+        (4, '12460'),
+        (5, '00001')
+    ]
+    for work_order_propane_tank in work_order_propane_tanks:
+        insert_work_order_propane_tank(connection, work_order_propane_tank)
+
+
+def populate_delivery(connection):
+    deliveries = [
+
+    ]
+    for delivery in deliveries:
+        insert_delivery(connection, delivery)
+
+
 def populate_tables(connection):
     populate_employee(connection)
     populate_employee_qualification(connection)
@@ -101,7 +145,10 @@ def populate_tables(connection):
     populate_customer_phone(connection)
     populate_propane_tank(connection)
     populate_truck(connection)
-
+    populate_work_order(connection)
+    populate_work_order_employee(connection)
+    populate_work_order_propane_tank(connection)
+    
 
 def main():
     database = 'propane354.db'
