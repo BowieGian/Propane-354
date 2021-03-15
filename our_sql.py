@@ -135,7 +135,6 @@ def insert_work_order(connection, values):
     sql = '''
         INSERT INTO work_order(
             order_number,
-            employee_id,
             customer_email,
             order_total,
             order_status,
