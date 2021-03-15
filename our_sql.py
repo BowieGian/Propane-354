@@ -144,7 +144,7 @@ def insert_work_order(connection, values):
             po_number,
             expected_completion_date
         )
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?,);
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);
     '''
     insert(connection, sql, values)
 
