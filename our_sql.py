@@ -75,10 +75,11 @@ def insert_customer(connection, values):
             honorific,
             unit_number,
             street_number,
+            street_name,
             suburb,
             postal_code
         )
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     '''
     insert(connection, sql, values)
 

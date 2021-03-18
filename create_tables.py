@@ -57,6 +57,7 @@ def create_tables(connection):
             honorific text,
             unit_number integer NOT NULL,
             street_number integer NOT NULL,
+            street_name text NOT NULL,
             suburb text NOT NULL,
             postal_code text NOT NULL
         );
