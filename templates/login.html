@@ -14,7 +14,7 @@
             <select name="first_name" id="first_name" class="button">
                 <option value="Select">Select</option>
                 {% for employee in employees %}
-                    <option value="{{ employee[0] }}">{{ employee[0] }}</option>
+                <option value="{{ employee[0] }}">{{ employee[0] }}</option>
                 {% endfor %}
             </select> <br>
             <label for="id">ID:</label>
@@ -22,5 +22,11 @@
             <input type="submit" value="Login" class="button">
         </form>
     </div>
+
+    {% if loginFailed == true %}
+    <div class="failed-login">
+        <h4 style="text-align: center; color:Red">Login info was incorrect.<br>Please try again</h4>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

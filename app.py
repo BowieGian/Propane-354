@@ -27,6 +27,8 @@ def index():
     else:
         return "Failed to create database connection."
 
+    employees = cursor.execute('SELECT first_name FROM employee').fetchall();
+
     if request.method == 'POST':
         first_name = request.form['first_name']
         id = request.form['id']
@@ -35,10 +37,9 @@ def index():
         if cursor.execute('SELECT id FROM employee WHERE first_name = ? AND id = ?', (first_name, id,)).fetchone():
             return redirect(url_for('home'))
         else:
-            return redirect('/')
+            return render_template('login.html', employees=employees, loginFailed=True)
     else:
-        employees = cursor.execute('SELECT first_name FROM employee').fetchall();
-        return render_template('login.html', employees=employees)
+        return render_template('login.html', employees=employees, loginFailed=False)
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
