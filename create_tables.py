@@ -58,7 +58,6 @@ def create_tables(connection):
             unit_number integer NOT NULL,
             street_number integer NOT NULL,
             street_name text NOT NULL,
-            suburb text NOT NULL,
             postal_code text NOT NULL
         );
     '''
@@ -166,6 +165,7 @@ def create_tables(connection):
             PRIMARY KEY (
                 employee_id,
                 customer_email,
+                serial_number,
                 vin
             ),
             FOREIGN KEY (employee_id)
