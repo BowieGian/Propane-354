@@ -62,6 +62,13 @@ def workOrder():
     else:
         return render_template('work-order.html')
 
+@app.route('/work-order/create', methods=['GET', 'POST'])
+def workOrderCreate():
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        return render_template('work-order-create.html')
+
 @app.route('/employee-list', methods=['GET', 'POST'])
 def employeeList():
     if request.method == 'POST':

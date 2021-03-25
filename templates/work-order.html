@@ -6,6 +6,12 @@
 
 {% block body %}
 <div class="content">
+    <form method='GET' action="/home"><button class="back">Back</button></form>
     <h1 style="text-align: center">Propane 354 Work Order</h1>
+
+    <div class="form">
+        <form method='GET' action="/work-order/create"><button class="button">Create New</button></form>
+        <form method='GET' action="/work-order/view"><button class="button">View Existing</button></form>
+    </div>
 </div>
 {% endblock %}

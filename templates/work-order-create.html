@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Work Order Create</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+	<form method='GET' action="/work-order"><button class="back">Back</button></form>
+	<br>
+	<form action="/work-order/create" method="POST">
+		<div class="grid">
+			<label for="rush-status">Rush Status:</label>
+			<select name="rush-status" id="rush-status">
+				<option value="Select">Select</option>
+				<option value="Standard">Standard</option>
+				<option value="Express">Express</option>
+				<option value="Same Day">Same Day</option>
+			</select>
+
+			<label for="customer">Customer:</label>
+			<input type="text" name="customer" id="customer">
+		</div>
+	</form>
+	
+</div>
+
+{% endblock %}

@@ -23,3 +23,20 @@ body, html {
     position: absolute;
     left: 0;
 }
+
+.grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-gap: 5px;
+}
+
+.grid label {
+    text-align: right;
+    padding: 20px 0px;
+}
+
+.grid input, select {
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
