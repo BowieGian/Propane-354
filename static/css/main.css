@@ -17,7 +17,9 @@ body, html {
 
 .back {
     position: absolute;
-    left: 0;
+    left: 10px;
+    padding: 12px 20px;
+    box-sizing: border-box;
 }
 
 .grid {
