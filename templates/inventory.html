@@ -6,6 +6,31 @@
 
 {% block body %}
 <div class="content">
+    <form method='GET' action="/home"><button class="back">Back</button></form>
     <h1 style="text-align: center">Propane 354 Inventory</h1>
+
+    <div class="form">
+        <form action="/inventory/display" method="POST" style="text-align: center">
+            <label for="manufacturer">Manufacturer:</label>
+            <input type="text" name="manufacturer" id="manufacturer" class="button"> <br>
+            <label for="stock-num">Stock #:</label>
+            <input type="text" name="stock-num" id="stock-num" class="button"> <br>
+            <label for="size">Size:</label>
+            <input type="text" name="size" id="size" class="button"> <br>
+            <label for="quickfill">Quickfill:</label>
+            <select name="quickfill" id="quickfill" class="button">
+                <option value="Select">Select</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <label for="liquid-vapor">Liquid/Vapor:</label>
+            <select name="liquid-vapor" id="liquid-vapor" class="button">
+                <option value="Select">Select</option>
+                <option value="Liquid">Liquid</option>
+                <option value="Vapor">Vapor</option>
+            </select>
+            <input type="submit" value="Search" class="button">
+        </form>
+    </div>
 </div>
 {% endblock %}
