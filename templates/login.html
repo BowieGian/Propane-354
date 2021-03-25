@@ -8,20 +8,20 @@
 <div class="content">
     <h1 style="text-align: center">Propane 354 Login</h1>
 
-    <div class="form">
-        <form action="/" method="POST" style="text-align: center">
-            <label for="first_name">First Name:</label> <br>
-            <select name="first_name" id="first_name" class="button">
+    <form action="/" method="POST" style="text-align: center">
+        <div class="grid">
+            <label for="first_name">First Name:</label>
+            <select name="first_name" id="first_name">
                 <option value="Select">Select</option>
                 {% for employee in employees %}
                 <option value="{{ employee[0] }}">{{ employee[0] }}</option>
                 {% endfor %}
-            </select> <br>
+            </select>
             <label for="id">ID:</label>
-            <input type="password" name="id" id="id" class="button"> <br>
-            <input type="submit" value="Login" class="button">
-        </form>
-    </div>
+            <input type="password" name="id" id="id">
+        </div>
+        <input type="submit" value="Login" class="button">
+    </form>
 
     {% if loginFailed == true %}
     <div class="failed-login">
