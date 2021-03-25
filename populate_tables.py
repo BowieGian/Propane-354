@@ -96,7 +96,7 @@ def populate_truck(connection):
 def populate_work_order(connection):
     work_orders = [
         (1, 'JohnSmith@bigCompany.com', 2475, 'Complete', 'Credit', 'Express', '2021-03-04', 1234, '2021-03-05'),
-        (2, 'WalterBiggins@smallCompany.com', 759, 'In Progress', 'Cheque', 'Express', '2021-03-6', 1235, '2021-03-13'),
+        (2, 'WalterBiggins@smallCompany.com', 759, 'In Progress', 'Cheque', 'Express', '2021-03-06', 1235, '2021-03-13'),
         (3, 'AlbertWoo@smallCompany.com', 690, 'In Progress', 'Debit', 'Standard', '2021-03-13', 1236, '2021-03-27'),
         (4, 'SamYang@smallCompany.com', 245, 'On Hold', 'Cash', 'Standard', '2021-03-13', 1237, None),
         (5, 'SarahBrown@smallCompany.com', 895, 'On Hold', 'Credit', 'Standard', '2021-03-13', 1238, None)
