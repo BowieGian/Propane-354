@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Home</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Propane 354 Home</h1>
+
+    <div class="content">
+        <form method='GET' action="/inventory"><button class="button">Inventory</button></form> <br>
+        <form method='GET' action="/work-order"><button class="button">Work Order</button></form> <br>
+        <form method='GET' action="/employee-list"><button class="button">Employee List</button></form> <br>
+        <form method='GET' action="/customers"><button class="button">Customers</button></form> <br>
+        <form method='GET' action="/vehicles"><button class="button">Vehicles</button></form> <br>
+        <form method='GET' action="/calendar"><button class="button">Calendar</button></form> <br>
+    </div>
+</div>
+{% endblock %}
