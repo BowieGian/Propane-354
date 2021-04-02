@@ -106,11 +106,25 @@ def workOrderView():
     else:
         return "Failed to create database connection."
 
+    test_sql = f'''
+        SELECT *
+        FROM work_order
+    '''
+
+    df = pd.read_sql(test_sql, connection)
+
+    if request.method == 'POST':
+        return render_template('work-order-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+    else:
+        return render_template('work-order-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+
+    '''
     if request.method == 'POST':
         return 'Post'
     else:
         workOrders = cursor.execute('SELECT * FROM WorkOrder').fetchall()
         return render_template('work-order-list.html', workOrders=workOrders)
+    '''
 
 @app.route('/employee-list', methods=['GET', 'POST'])
 def employeeList():
