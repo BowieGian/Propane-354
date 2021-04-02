@@ -1,13 +1,22 @@
 import pandas as pd
 import sqlite3
+import our_sql
 from sqlite3 import Error
-from our_sql import *
 
+def insert(connection, sql, values):
+    # adapted https://www.sqlitetutorial.net/sqlite-python/insert/
+    
+    try:
+        cursor = connection.cursor()
+        cursor.execute(sql, values)
+        #connection.commit() # uncomment to commit changes to database
+    except Error as e:
+        print(e)
 
 def main():
     database = 'propane354.db'
 
-    connection = create_connection(database)
+    connection = our_sql.create_connection(database)
     
     if (connection):
         # view all tables
@@ -26,6 +35,7 @@ def main():
             )
             print(tables[table_name])
             print()
+        
             
         # test triggers
         invalid_employees = [
@@ -34,7 +44,7 @@ def main():
         ]
         
         for invalid_employee in invalid_employees:
-            insert_employee(connection, invalid_employee)
+            our_sql.insert_employee(connection, invalid_employee)
         
     else:
         print("Failed to create database connection.")
