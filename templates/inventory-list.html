@@ -9,15 +9,12 @@
     <form method='GET' action="/inventory"><button class="back">Back</button></form>
     <h1 style="text-align: center">Propane 354 Inventory List</h1>
 
-    <table>
-        <tr>
-            <th>Quantity</th>
-            <th>{{ group_by }}</th>
-        </tr>
+    <div class="data">
         {% for table in tables %}
-            {{titles[loop.index]}}
-            {{ table|safe }}
-	{% endfor %}
-    </table>
+        {{ table|safe }}
+        {% endfor %}
+    </div>
+    <br>
+    <form method='GET' action="/inventory/add"><button class="button">Add Item</button></form>
 </div>
 {% endblock %}

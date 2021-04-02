@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Inventory Add</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <form method='GET' action="/inventory"><button class="back">Back</button></form>
+    <h1 style="text-align: center">Propane 354 Inventory Add</h1>
+
+    <form action="/inventory/add" method="POST" style="text-align: center">
+        <div class="grid">
+            <label for="size">Size:</label>
+            <input type="text" name="size" id="size">
+            <label for="manufacturer">Manufacturer:</label>
+            <input type="text" name="manufacturer" id="manufacturer">
+            <label for="form">Form:</label>
+            <input type="text" name="form" id="form">
+            <label for="quick_fill">Quick Fill:</label>
+            <input type="text" name="form" id="form">
+            <label for="material">Material:</label>
+            <input type="text" name="material" id="material">
+        </div>
+    </form>
+    <input type="submit" value="Add" class="button">
+</div>
+{% endblock %}

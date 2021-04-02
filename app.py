@@ -43,29 +43,33 @@ def index():
     else:
         return render_template('login.html', employees=employees, loginFailed=False)
 
-@app.route('/home', methods=['GET', 'POST'])
+@app.route('/home')
 def home():
-    if request.method == 'POST':
-        return 'Post'
-    else:
-        return render_template('home.html')
+    return render_template('home.html')
 
-@app.route('/inventory', methods=['GET', 'POST'])
+@app.route('/inventory')
 def inventory():
+    return render_template('inventory.html')
+
+@app.route('/inventory/add', methods=['GET', 'POST'])
+def inventoryAdd():
     if request.method == 'POST':
-        return 'Post'
+        size = request.form['size']
+        manufacturer = request.form['manufacturer']
+        form = request.form['form']
+        quick_fill = request.form['quick_fill']
+        material = request.form['material']
+
+        # add to database ----------------------
+
+        redirect(url_for('inventory'))
     else:
-        return render_template('inventory.html')
+        return render_template('inventory-add.html')
 
 @app.route('/inventory/list', methods=['GET', 'POST'])
 def inventoryList():
     database = 'propane354.db'
     connection = create_connection(database)
-
-    if (connection):
-        cursor = connection.cursor()
-    else:
-        return "Failed to create database connection."
 
     group_by = request.form['group-by']
 
@@ -97,7 +101,7 @@ def workOrderCreate():
         return render_template('work-order-create.html')
 
 @app.route('/work-order/list', methods=['GET', 'POST'])
-def workOrderView():
+def workOrderList():
     database = 'propane354.db'
     connection = create_connection(database)
     
