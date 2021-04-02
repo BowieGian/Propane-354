@@ -78,9 +78,9 @@ def inventoryList():
     item_counts = pd.read_sql(test_sql, connection)       
 
     if request.method == 'POST':
-        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data')], titles=item_counts.columns.values)
+        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data', index=False)], titles=item_counts.columns.values)
     else:
-        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data')], titles=item_counts.columns.values)
+        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data', index=False)], titles=item_counts.columns.values)
 
 @app.route('/work-order', methods=['GET', 'POST'])
 def workOrder():
