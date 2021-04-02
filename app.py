@@ -69,17 +69,18 @@ def inventoryList():
 
     group_by = request.form['group-by']
 
-    
-    items = cursor.execute(f'''
-        SELECT {group_by}, COUNT(*) as Count
+    test_sql = f'''
+        SELECT {group_by}, COUNT(*) AS `Count`
         FROM propane_tank
         GROUP BY {group_by};
-    ''', (group_by)).fetchall()
+    '''
+    
+    item_counts = pd.read_sql(test_sql, connection)       
 
     if request.method == 'POST':
-        return render_template('inventory-list.html', items=items, group_by=group_by)
+        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data')], titles=item_counts.columns.values)
     else:
-        return render_template('inventory-list.html', items=items, group_by=group_by)
+        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data')], titles=item_counts.columns.values)
 
 @app.route('/work-order', methods=['GET', 'POST'])
 def workOrder():
