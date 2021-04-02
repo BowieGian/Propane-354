@@ -55,6 +55,13 @@ def inventory():
     else:
         return render_template('inventory.html')
 
+@app.route('/inventory/list', methods=['GET', 'POST'])
+def inventoryList():
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        return render_template('inventory-list.html')
+
 @app.route('/work-order', methods=['GET', 'POST'])
 def workOrder():
     if request.method == 'POST':
@@ -68,6 +75,22 @@ def workOrderCreate():
         return 'Post'
     else:
         return render_template('work-order-create.html')
+
+@app.route('/work-order/list', methods=['GET', 'POST'])
+def workOrderView():
+    database = 'propane354.db'
+    connection = create_connection(database)
+    
+    if (connection):
+        cursor = connection.cursor()
+    else:
+        return "Failed to create database connection."
+
+    if request.method == 'POST':
+        return 'Post'
+    else:
+        workOrders = cursor.execute('SELECT * FROM WorkOrder').fetchall()
+        return render_template('work-order-list.html', workOrders=workOrders)
 
 @app.route('/employee-list', methods=['GET', 'POST'])
 def employeeList():

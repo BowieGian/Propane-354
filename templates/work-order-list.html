@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Work Order List</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+	<form method='GET' action="/work-order"><button class="back">Back</button></form>
+	<h1 style="text-align: center">Propane 354 Work Order List</h1>
+
+	<table>
+		<tr>
+			<th>Order #</th>
+			<th>Customer Name</th>
+			<th>Rust Status</th>
+			<th>Status</th>
+		</tr>
+		{% for workOrder in workOrders %}
+		<tr>
+			<td>{{ workOrder.OrderNumber }}</td>
+			<td>{{ workOrder.CustomerEmail }}</td>
+			<td>{{ workOrder. }}</td>
+			<td>{{  }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+{% endblock %}
