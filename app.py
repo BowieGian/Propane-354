@@ -19,53 +19,6 @@ def create_connection(db_file):
 
     return connection
 
-def insert(connection, sql, values):
-    # adapted https://www.sqlitetutorial.net/sqlite-python/insert/
-    
-    try:
-        cursor = connection.cursor()
-        cursor.execute(sql, values)
-        # insert an employee into the `employee` table  
-        employee1 = ('John', 'Doe', 'SomeSuffix', '2021-03-05', 42000, 'Laborer')
-        insert_employee(connection, employee1)
-        employee2 = ('Bob', 'Smith', 'Mr.', '2021-01-05', 40000, 'Laborer')
-        insert_employee(connection, employee2)
-
-        # insert a qualification into the `employee_qualification` table
-        employee1_qualifications = (1, 'Certified Inspector')
-        insert_employee_qualification(connection, employee1_qualifications)
-        employee2_qualifications = (2, 'Certified Inspector')
-        insert_employee_qualification(connection, employee2_qualifications)
-
-        # connection.commit() # uncomment to commit changes to database
-    except Error as e:
-        print(e)
-
-def insert_employee(connection, values):
-    sql = '''
-        INSERT INTO employee(
-            first_name, 
-            last_name, 
-            suffix, 
-            start_date, 
-            salary, 
-            position
-        )
-        VALUES(?, ?, ?, ?, ?, ?);
-    '''
-    insert(connection, sql, values)
-
-    
-def insert_employee_qualification(connection, values):
-    sql = '''
-        INSERT INTO employee_qualification(
-            employee_id,
-            qualification
-        )
-        VALUES(?, ?);
-    '''
-    insert(connection, sql, values)
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     database = 'propane354.db'
@@ -106,10 +59,27 @@ def inventory():
 
 @app.route('/inventory/list', methods=['GET', 'POST'])
 def inventoryList():
-    if request.method == 'POST':
-        return 'Post'
+    database = 'propane354.db'
+    connection = create_connection(database)
+
+    if (connection):
+        cursor = connection.cursor()
     else:
-        return render_template('inventory-list.html')
+        return "Failed to create database connection."
+
+    group_by = request.form['group-by']
+
+    
+    items = cursor.execute(f'''
+        SELECT {group_by}, COUNT(*) as Count
+        FROM propane_tank
+        GROUP BY {group_by};
+    ''', (group_by)).fetchall()
+
+    if request.method == 'POST':
+        return render_template('inventory-list.html', items=items, group_by=group_by)
+    else:
+        return render_template('inventory-list.html', items=items, group_by=group_by)
 
 @app.route('/work-order', methods=['GET', 'POST'])
 def workOrder():

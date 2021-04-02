@@ -9,15 +9,15 @@
     <form method='GET' action="/home"><button class="back">Back</button></form>
     <h1 style="text-align: center">Propane 354 Inventory</h1>
 
-    <form action="/inventory/display" method="POST" style="text-align: center">
+    <form action="/inventory/list" method="POST" style="text-align: center">
         <div class="grid">
             <label for="group-by">Group By:</label>
             <select name="group-by" id="group-by">
-                <option value="Select">Select</option>
+                <option value="All">All</option>
                 <option value="Manufacturer">Manufacturer</option>
-                <option value="type-of-tank">Type of Tank</option>
-                <option value="liquid-vapour">Liquid/Vapour</option>
-                <option value="quick-fill">Quick Fill</option>
+                <option value="Type Of Tank">Type of Tank</option>
+                <option value="Liquid/Vapour">Liquid/Vapour</option>
+                <option value="Quick Fill">Quick Fill</option>
             </select>
         </div>
         <input type="submit" value="Search" class="button">
