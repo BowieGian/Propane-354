@@ -10,15 +10,7 @@ def main():
     connection = create_connection(database)
     
     if (connection):
-        # insert an employee into the `employee` table  
-        #employee1 = ('johndoe@gmail.com', 'John', 'Doe', 'SomeSuffix', '2021-03-05', 42000, 'Laborer')
-        #insert_employee(connection, employee1)
-
-        # insert a qualification into the `employee_qualification` table
-        #employee1_qualifications = (1, 'Certified Inspector')
-        #insert_employee_qualification(connection, employee1_qualifications)
-
-        # view all tables - uncomment line in the insert function to commit changes
+        # view all tables
         table_names = [
             'employee', 'employee_qualification', 'employee_availability',
             'work_order', 'work_order_employee', 'work_order_propane_tank',
@@ -34,6 +26,16 @@ def main():
             )
             print(tables[table_name])
             print()
+            
+        # test triggers
+        invalid_employees = [
+            ('notARealEmail', 'John', 'Doe', 'Mr.', '2021-03-05', 42000, 'Laborer'),         # test email trigger
+            ('brett.ray354@gmail.com', 'Brett', 'Ray', 'Mr.', '12-03-2021', 42000, 'Driver') # test start_date trigger
+        ]
+        
+        for invalid_employee in invalid_employees:
+            insert_employee(connection, invalid_employee)
+        
     else:
         print("Failed to create database connection.")
 
