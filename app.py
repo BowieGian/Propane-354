@@ -2,7 +2,7 @@ import pandas as pd
 import sqlite3
 
 from flask import Flask, render_template, url_for, request, redirect
-from our_sql import create_connection
+from our_sql import *
 from sqlite3 import Error
 
 app = Flask(__name__)
@@ -11,6 +11,7 @@ app = Flask(__name__)
 def index():
     database = 'propane354.db'
     connection = create_connection(database)
+    cursor = connection.cursor()
 
     employees = cursor.execute('SELECT first_name FROM employee').fetchall();
 
@@ -54,20 +55,14 @@ def inventoryList():
     database = 'propane354.db'
     connection = create_connection(database)
 
-    group_by = request.form['group-by']
+    group_by_attribute = request.form['group-by']
+    select_propane_tank_results = select_propane_tank(connection, group_by_attribute)    
 
-    test_sql = f'''
-        SELECT {group_by}, COUNT(*) AS `Count`
-        FROM propane_tank
-        GROUP BY {group_by};
-    '''
-    
-    item_counts = pd.read_sql(test_sql, connection)       
-
-    if request.method == 'POST':
-        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data', index=False)], titles=item_counts.columns.values)
-    else:
-        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data', index=False)], titles=item_counts.columns.values)
+    return render_template(
+        'inventory-list.html',
+        tables=[select_propane_tank_results.to_html(classes='data', index=False)],
+        titles=select_propane_tank_results.columns.values
+    )
 
 @app.route('/work-order', methods=['GET', 'POST'])
 def workOrder():
