@@ -7,27 +7,10 @@ from sqlite3 import Error
 
 app = Flask(__name__)
 
-def create_connection(db_file):
-    # taken from https://www.sqlitetutorial.net/sqlite-python/create-tables/
-    
-    connection = None
-    try:
-        connection = sqlite3.connect(db_file)
-        return connection
-    except Error as e:
-        print(e)
-
-    return connection
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     database = 'propane354.db'
     connection = create_connection(database)
-
-    if (connection):
-        cursor = connection.cursor()
-    else:
-        return "Failed to create database connection."
 
     employees = cursor.execute('SELECT first_name FROM employee').fetchall();
 
