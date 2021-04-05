@@ -51,7 +51,7 @@ def inventoryAdd():
 
         redirect(url_for('inventory'))
     else:
-        return render_template('inventory-add.html')
+        return render_template('inventory-add.html', retail_employees=retail_employees, customer_emails=customer_emails)
 
 @app.route('/inventory/list', methods=['GET', 'POST'])
 def inventoryList():
