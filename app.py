@@ -37,12 +37,15 @@ def inventory():
 
 @app.route('/inventory/add', methods=['GET', 'POST'])
 def inventoryAdd():
+    database = 'propane354.db'
+    connection = create_connection(database)
+    cursor = connection.cursor()
+
+    retail_employees = cursor.execute('SELECT id FROM employee WHERE position = "Retail";').fetchall();
+    customer_emails = cursor.execute('SELECT email FROM customer;').fetchall();
+    
     if request.method == 'POST':
-        size = request.form['size']
-        manufacturer = request.form['manufacturer']
-        form = request.form['form']
-        quick_fill = request.form['quick_fill']
-        material = request.form['material']
+        
 
         # add to database ----------------------
 

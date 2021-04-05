@@ -9,20 +9,101 @@
     <form method='GET' action="/inventory"><button class="back">Back</button></form>
     <h1 style="text-align: center">Propane 354 Inventory Add</h1>
 
-    <form action="/inventory/add" method="POST" style="text-align: center">
-        <div class="grid">
-            <label for="size">Size:</label>
-            <input type="text" name="size" id="size">
-            <label for="manufacturer">Manufacturer:</label>
-            <input type="text" name="manufacturer" id="manufacturer">
-            <label for="form">Form:</label>
-            <input type="text" name="form" id="form">
-            <label for="quick_fill">Quick Fill:</label>
-            <input type="text" name="form" id="form">
-            <label for="material">Material:</label>
-            <input type="text" name="material" id="material">
-        </div>
-    </form>
+    <form action="/inventory/add" method="POST" style="text-align: center"></form>
+
+    <table>
+        <tr>
+            <td>Serial Number:</td>
+	    <td><input type="text" name="serial_number" id="serial_number"></td>
+        </tr>
+	<tr>
+            <td>Manufacturer:</td>
+	    <td><input type="text" name="manufacturer" id="manufacturer"></td>
+        </tr>
+        <tr>
+	    <td>Quick Fill:</td>
+	    <td>
+                <select name="quick_fill" id="quick_fill">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+	    <td>Form Factor:</td>
+	    <td>
+                <select name="form_factor" id="form_factor">
+                    <option value="tall">Tall</option>
+                    <option value="squat">Squat</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Tare Weight:</td>
+	    <td><input type="text" name="tare_weight" id="tare_weight"></td>
+        </tr>
+        <tr>
+            <td>Water Capacity:</td>
+	    <td><input type="text" name="water_capacity" id="water_capacity"></td>
+        </tr>
+        <tr>
+	    <td>Liquid Vapor:</td>
+	    <td>
+                <select name="liquid_vapor" id="liquid_vapor">
+                    <option value="liquid">Liquid</option>
+                    <option value="vapor">Vapor</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Rust Level:</td>
+	    <td><input type="text" name="rust_level" id="rust_level"></td>
+        </tr>
+        <tr>
+            <td>Production Date:</td>
+	    <td><input type="text" name="production_date" id="production_date"></td>
+        </tr>
+        <tr>
+            <td>Last Visual Check Date:</td>
+	    <td><input type="text" name="last_visual_check_date" id="last_visual_check_date"></td>
+        </tr>
+        <tr>
+	    <td>Type of Tank:</td>
+	    <td>
+                <select name="type_of_tank" id="type_of_tank">
+                    <option value="Aluminium">Aluminium</option>
+                    <option value="Steel">Steel</option>
+		    <option value="Fiber">Fiber</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+	    <td>Sold by Employee ID:</td>
+	    <td>
+                <select name="sold_by_employee_id" id="sold_by_employee_id">
+                    <option value="None">None (has not been sold)</option>
+                    {% for retail_employee in retail_employees %}
+                    <option value="{{ retail_employee [0] }}">{{ retail_employee [0] }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+	    <td>Sold to Customer Email:</td>
+	    <td>
+                <select name="sold_to_customer_email" id="sold_to_customer_email">
+                    <option value="None">None (has not been sold)</option>
+                    {% for customer_email in customer_emails %}
+                    <option value="{{ customer_email [0] }}">{{ customer_email [0] }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+	<tr>
+            <td>Sell Date:</td>
+	    <td><input type="text" name="sell_date" id="sell_date"></td>
+        </tr>
+    </table>
     <input type="submit" value="Add" class="button">
 </div>
 {% endblock %}
