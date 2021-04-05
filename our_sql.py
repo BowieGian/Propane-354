@@ -1,3 +1,4 @@
+import pandas as pd
 import sqlite3
 from sqlite3 import Error
 
@@ -183,3 +184,33 @@ def insert_delivery(connection, values):
         VALUES(?, ?, ?, ?, ?);
     '''
     insert(connection, sql, values)
+
+
+def select_all(connection, table_name):
+    sql = f'''
+        SELECT *
+        FROM {table_name};
+    '''
+    select_all_results = pd.read_sql(sql, connection)
+    return select_all_results
+
+    
+def group_by_aggregate_propane_tank(connection, group_by_attribute):
+    sql = f'''
+        SELECT {group_by_attribute}, COUNT(*) AS `Count`
+        FROM propane_tank
+        GROUP BY {group_by_attribute};
+    '''
+    propane_tank_counts = pd.read_sql(sql, connection)
+    return propane_tank_counts
+
+
+def select_propane_tank(connection, group_by_attribute):
+    if (group_by_attribute == 'all'):
+        select_propane_tank_results = select_all(connection, 'propane_tank')
+    else:
+        select_propane_tank_results = group_by_aggregate_propane_tank(connection, group_by_attribute)
+    return select_propane_tank_results
+    
+    
+    
