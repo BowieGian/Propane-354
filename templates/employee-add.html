@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Employee Add</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <form method='GET' action="/employee-list"><button class="back">Back</button></form>
+    <h1 style="text-align: center">Propane 354 Employee Add</h1>
+
+    <form action="/employee/add" method="POST" style="text-align: center">
+        <div class="grid">
+            <label for="Honorific">Name:</label>
+            <div class="grid-name">
+                <input type="text" name="honorific" id="honorific" placeholder="Honorific">
+                <input type="text" name="first_name" id="first_name" placeholder="First Name">
+                <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+            </div>
+            <label for="email">E-mail:</label>
+            <input type="email" name="email" id="email">
+            <label for="start_date">Start Date:</label>
+            <input type="date" name="start_date" id="start_date">
+            <label for="department">Department:</label>
+            <input type="text" name="department" id="department">
+            <label for="salary">Salary:</label>
+            <input type="number" name="salary" id="salary">
+        </div>
+    </form>
+    <input type="submit" value="Add" class="button">
+</div>
+{% endblock %}

@@ -22,13 +22,7 @@ def create_connection(db_file):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     database = 'propane354.db'
-    connection = create_connection(database)
-
-    if (connection):
-        cursor = connection.cursor()
-    else:
-        return "Failed to create database connection."
-
+    cursor = create_connection(database).cursor()
     employees = cursor.execute('SELECT first_name FROM employee').fetchall();
 
     if request.method == 'POST':
@@ -53,6 +47,9 @@ def inventory():
 
 @app.route('/inventory/add', methods=['GET', 'POST'])
 def inventoryAdd():
+    database = 'propane354.db'
+    connection = create_connection(database)
+
     if request.method == 'POST':
         size = request.form['size']
         manufacturer = request.form['manufacturer']
@@ -86,12 +83,9 @@ def inventoryList():
     else:
         return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data', index=False)], titles=item_counts.columns.values)
 
-@app.route('/work-order', methods=['GET', 'POST'])
+@app.route('/work-order')
 def workOrder():
-    if request.method == 'POST':
-        return 'Post'
-    else:
-        return render_template('work-order.html')
+    return render_template('work-order.html')
 
 @app.route('/work-order/create', methods=['GET', 'POST'])
 def workOrderCreate():
@@ -100,15 +94,10 @@ def workOrderCreate():
     else:
         return render_template('work-order-create.html')
 
-@app.route('/work-order/list', methods=['GET', 'POST'])
+@app.route('/work-order/list')
 def workOrderList():
     database = 'propane354.db'
     connection = create_connection(database)
-    
-    if (connection):
-        cursor = connection.cursor()
-    else:
-        return "Failed to create database connection."
 
     test_sql = f'''
         SELECT *
@@ -117,46 +106,70 @@ def workOrderList():
 
     df = pd.read_sql(test_sql, connection)
 
-    if request.method == 'POST':
-        return render_template('work-order-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
-    else:
-        return render_template('work-order-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+    return render_template('work-order-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
 
-    '''
-    if request.method == 'POST':
-        return 'Post'
-    else:
-        workOrders = cursor.execute('SELECT * FROM WorkOrder').fetchall()
-        return render_template('work-order-list.html', workOrders=workOrders)
-    '''
-
-@app.route('/employee-list', methods=['GET', 'POST'])
+@app.route('/employee-list')
 def employeeList():
-    if request.method == 'POST':
-        return 'Post'
-    else:
-        return render_template('employee-list.html')
+    database = 'propane354.db'
+    connection = create_connection(database)
 
-@app.route('/customers', methods=['GET', 'POST'])
+    test_sql = f'''
+        SELECT *
+        FROM employee
+    '''
+
+    df = pd.read_sql(test_sql, connection)
+
+    return render_template('employee-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+
+@app.route('/employee-list/add', methods=['GET', 'POST'])
+def employeeAdd():
+    database = 'propane354.db'
+    connection = create_connection(database)
+
+    if request.method == 'POST':
+        honorific = request.form['honorific']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
+        start_date = request.form['start_date']
+        department = request.form['department']
+        salary = request.form['salary']
+
+        # add employee ------------------
+
+        return redirect(url_for('empolyeeList'))
+    else:
+        return render_template('employee-add.html')
+
+@app.route('/employee-qualification-add', methods=['GET', 'POST'])
+def employeeQualificationAdd():
+    database = 'propane354.db'
+    connection = create_connection(database)
+    cursor = connection.cursor()
+    employees = cursor.execute('SELECT first_name FROM employee').fetchall();
+
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        qualification = request.form['qualification']
+
+        # add qualification ----------------------
+
+        return redirect(url_for('employeeList'))
+    else:
+        return render_template('employee-qualification-add.html', employees=employees)
+
+@app.route('/customers')
 def customers():
-    if request.method == 'POST':
-        return 'Post'
-    else:
-        return render_template('customers.html')
+    return render_template('customers.html')
 
-@app.route('/vehicles', methods=['GET', 'POST'])
+@app.route('/vehicles')
 def vehicles():
-    if request.method == 'POST':
-        return 'Post'
-    else:
-        return render_template('vehicles.html')
+    return render_template('vehicles.html')
 
-@app.route('/calendar', methods=['GET', 'POST'])
+@app.route('/calendar')
 def calendar():
-    if request.method == 'POST':
-        return 'Post'
-    else:
-        return render_template('calendar.html')
+    return render_template('calendar.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
