@@ -2,22 +2,10 @@ import pandas as pd
 import sqlite3
 
 from flask import Flask, render_template, url_for, request, redirect
-from our_sql import create_connection
+from our_sql import *
 from sqlite3 import Error
 
 app = Flask(__name__)
-
-def create_connection(db_file):
-    # taken from https://www.sqlitetutorial.net/sqlite-python/create-tables/
-    
-    connection = None
-    try:
-        connection = sqlite3.connect(db_file)
-        return connection
-    except Error as e:
-        print(e)
-
-    return connection
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -49,39 +37,50 @@ def inventory():
 def inventoryAdd():
     database = 'propane354.db'
     connection = create_connection(database)
+    cursor = connection.cursor()
 
+    retail_employees = cursor.execute('SELECT id FROM employee WHERE position = "Retail";').fetchall();
+    customer_emails = cursor.execute('SELECT email FROM customer;').fetchall();
+    
     if request.method == 'POST':
-        size = request.form['size']
-        manufacturer = request.form['manufacturer']
-        form = request.form['form']
-        quick_fill = request.form['quick_fill']
-        material = request.form['material']
+        form = {}
+        attributes = [
+            'serial_number', 'manufacturer', 'expiration_date', 'quick_fill', 'form_factor',
+            'tare_weight', 'water_capacity', 'liquid_vapor', 'rust_level', 'production_date',
+            'last_visual_check_date', 'type_of_tank', 'sold_by_employee_id',
+            'sold_to_customer_email', 'sell_date'
+        ]
 
-        # add to database ----------------------
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
 
-        redirect(url_for('inventory'))
+        return_value = 'success'
+        new_propane_tank_values = tuple(form.values())
+        return_value = insert_propane_tank(connection, new_propane_tank_values)
+        if (return_value != 'success'):
+            return render_template('inventory-add.html', retail_employees=retail_employees, customer_emails=customer_emails, error=return_value)
+        else:
+            return render_template('inventory-add.html', retail_employees=retail_employees, customer_emails=customer_emails, error='')
     else:
-        return render_template('inventory-add.html')
+        return render_template('inventory-add.html', retail_employees=retail_employees, customer_emails=customer_emails, error='')
 
 @app.route('/inventory/list', methods=['GET', 'POST'])
 def inventoryList():
     database = 'propane354.db'
     connection = create_connection(database)
 
-    group_by = request.form['group-by']
+    group_by_attribute = request.form['group-by']
+    select_propane_tank_results = select_propane_tank(connection, group_by_attribute)    
 
-    test_sql = f'''
-        SELECT {group_by}, COUNT(*) AS `Count`
-        FROM propane_tank
-        GROUP BY {group_by};
-    '''
-    
-    item_counts = pd.read_sql(test_sql, connection)       
-
-    if request.method == 'POST':
-        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data', index=False)], titles=item_counts.columns.values)
-    else:
-        return render_template('inventory-list.html', tables=[item_counts.to_html(classes='data', index=False)], titles=item_counts.columns.values)
+    return render_template(
+        'inventory-list.html',
+        tables=[select_propane_tank_results.to_html(classes='data', index=False)],
+        titles=select_propane_tank_results.columns.values
+    )
 
 @app.route('/work-order')
 def workOrder():

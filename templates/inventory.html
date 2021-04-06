@@ -13,7 +13,7 @@
         <div class="grid">
             <label for="group-by">Group By:</label>
             <select name="group-by" id="group-by">
-                <option value="All">All</option>
+                <option value="all">Nothing (select all)</option>
                 <option value="manufacturer">Manufacturer</option>
                 <option value="type_of_tank">Type of Tank</option>
                 <option value="liquid_vapor">Liquid/Vapour</option>
@@ -21,6 +21,9 @@
             </select>
         </div>
         <input type="submit" value="Search" class="button">
+    </form>
+    <form method='GET' action="/inventory/add">
+        <button class="button">Add Item</button>
     </form>
 </div>
 {% endblock %}
