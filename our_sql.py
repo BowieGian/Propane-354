@@ -23,8 +23,10 @@ def insert(connection, sql, values):
         cursor = connection.cursor()
         cursor.execute(sql, values)
         connection.commit() # uncomment to commit changes to database
+        return 'success'
     except Error as e:
-        print(e)
+        # print(e)
+        return str(e)
 
         
 def insert_employee(connection, values):
@@ -40,7 +42,7 @@ def insert_employee(connection, values):
         )
         VALUES(?, ?, ?, ?, ?, ?, ?);
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
     
 def insert_employee_qualification(connection, values):
@@ -51,7 +53,7 @@ def insert_employee_qualification(connection, values):
         )
         VALUES(?, ?);
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def insert_employee_availability(connection, values):
@@ -62,7 +64,7 @@ def insert_employee_availability(connection, values):
         )
         VALUES(?, ?);
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def insert_customer(connection, values):
@@ -81,7 +83,7 @@ def insert_customer(connection, values):
         )
         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def insert_customer_phone_number(connection, values):
@@ -92,7 +94,7 @@ def insert_customer_phone_number(connection, values):
         )
         VALUES(?, ?)
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def insert_propane_tank(connection, values):
@@ -116,7 +118,7 @@ def insert_propane_tank(connection, values):
         )
         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def insert_truck(connection, values):
@@ -129,7 +131,7 @@ def insert_truck(connection, values):
         )
         VALUES(?, ?, ?, ?)
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def insert_work_order(connection, values):
@@ -147,7 +149,7 @@ def insert_work_order(connection, values):
         )
         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def insert_work_order_employee(connection, values):
@@ -158,7 +160,7 @@ def insert_work_order_employee(connection, values):
         )
         VALUES(?, ?);
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def insert_work_order_propane_tank(connection, values):
@@ -169,7 +171,7 @@ def insert_work_order_propane_tank(connection, values):
         )
         VALUES(?, ?);
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def insert_delivery(connection, values):
@@ -183,7 +185,7 @@ def insert_delivery(connection, values):
         )
         VALUES(?, ?, ?, ?, ?);
     '''
-    insert(connection, sql, values)
+    return insert(connection, sql, values)
 
 
 def select_all(connection, table_name):
