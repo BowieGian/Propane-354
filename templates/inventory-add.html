@@ -8,9 +8,8 @@
 <div class="content">
     <form method='GET' action="/inventory"><button class="back">Back</button></form>
     <h1 style="text-align: center">Propane 354 Inventory Add</h1>
-
-    <form action="/inventory/add" method="POST" style="text-align: center"></form>
-
+    {{error}}
+    <form action="/inventory/add" method="POST" style="text-align: center">
     <table>
         <tr>
             <td>Serial Number:</td>
@@ -19,6 +18,10 @@
 	<tr>
             <td>Manufacturer:</td>
 	    <td><input type="text" name="manufacturer" id="manufacturer"></td>
+        </tr>
+        <tr>
+            <td>Expiration Date:</td>
+	    <td><input type="text" name="expiration_date" id="expiration_date_date"></td>
         </tr>
         <tr>
 	    <td>Quick Fill:</td>
@@ -81,7 +84,7 @@
 	    <td>Sold by Employee ID:</td>
 	    <td>
                 <select name="sold_by_employee_id" id="sold_by_employee_id">
-                    <option value="None">None (has not been sold)</option>
+                    <option value="">None (has not been sold)</option>
                     {% for retail_employee in retail_employees %}
                     <option value="{{ retail_employee [0] }}">{{ retail_employee [0] }}</option>
                     {% endfor %}
@@ -92,7 +95,7 @@
 	    <td>Sold to Customer Email:</td>
 	    <td>
                 <select name="sold_to_customer_email" id="sold_to_customer_email">
-                    <option value="None">None (has not been sold)</option>
+                    <option value="">None (has not been sold)</option>
                     {% for customer_email in customer_emails %}
                     <option value="{{ customer_email [0] }}">{{ customer_email [0] }}</option>
                     {% endfor %}
@@ -105,5 +108,7 @@
         </tr>
     </table>
     <input type="submit" value="Add" class="button">
+    </form>
 </div>
+
 {% endblock %}

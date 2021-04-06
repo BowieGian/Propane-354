@@ -45,13 +45,30 @@ def inventoryAdd():
     customer_emails = cursor.execute('SELECT email FROM customer;').fetchall();
     
     if request.method == 'POST':
-        
+        form = {}
+        attributes = [
+            'serial_number', 'manufacturer', 'expiration_date', 'quick_fill', 'form_factor',
+            'tare_weight', 'water_capacity', 'liquid_vapor', 'rust_level', 'production_date',
+            'last_visual_check_date', 'type_of_tank', 'sold_by_employee_id',
+            'sold_to_customer_email', 'sell_date'
+        ]
 
-        # add to database ----------------------
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
 
-        redirect(url_for('inventory'))
+        return_value = 'success'
+        new_propane_tank_values = tuple(form.values())
+        return_value = insert_propane_tank(connection, new_propane_tank_values)
+        if (return_value != 'success'):
+            return render_template('inventory-add.html', retail_employees=retail_employees, customer_emails=customer_emails, error=return_value)
+        else:
+            return render_template('inventory-add.html', retail_employees=retail_employees, customer_emails=customer_emails, error='')
     else:
-        return render_template('inventory-add.html', retail_employees=retail_employees, customer_emails=customer_emails)
+        return render_template('inventory-add.html', retail_employees=retail_employees, customer_emails=customer_emails, error='')
 
 @app.route('/inventory/list', methods=['GET', 'POST'])
 def inventoryList():
