@@ -11,8 +11,7 @@
 
 	<div class = "data">
 		{% for table in tables %}
-				{{titles[loop.index]}}
-				{{ table|safe }}
+		{{ table|safe }}
 		{% endfor %}
 	</div>
 	
