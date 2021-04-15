@@ -213,6 +213,22 @@ def select_propane_tank(connection, group_by_attribute):
     else:
         select_propane_tank_results = group_by_aggregate_propane_tank(connection, group_by_attribute)
     return select_propane_tank_results
+
+def update_propane_tank_last_visual_check_date(connection, serial_number_updated_last_visual_check_date):
+    sql = f'''
+        UPDATE propane_tank
+        SET last_visual_check_date = "{serial_number_updated_last_visual_check_date[1]}"
+        WHERE serial_number = {serial_number_updated_last_visual_check_date[0]};
+    '''
+    
+    try:
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        connection.commit()
+        print(serial_number_updated_last_visual_check_date[1])
+        return 'success'
+    except Error as e:
+        return str(e)
     
     
     
