@@ -104,8 +104,37 @@ def workOrderList():
     '''
 
     df = pd.read_sql(test_sql, connection)
-
     return render_template('work-order-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+
+@app.route('/work-order/create')
+def workOrderAdd():
+    database = 'propane354.db'
+    connection = create_connection(database)
+    # cursor = connection.cursor()
+
+    if request.method == 'POST':
+        form = {}
+        attributes = [
+            'rush-status', 'customer', 'po number', 'work to be done', 'tank size'
+            'liquid/vapour', 'qf', 'form factor'
+        ]
+
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
+        
+        return_value = 'success'
+        new_work_orders = tuple(form.values())
+        return_value = insert_work_order(connection, new_work_orders)
+        if (return_value != 'success'):
+            return render_template('work-order-create.html', error=return_value)
+        else:
+            return render_template('work-order-create.html', error='')
+    else:
+        return render_template('work-order-create.html', error='')
 
 @app.route('/employee-list')
 def employeeList():
@@ -167,34 +196,7 @@ def customers():
 
 @app.route('/vehicles')
 def vehicles():
-    database = 'propane354.db'
-    connection = create_connection(database)
-
-    test_sql = f'''
-        SELECT *
-        FROM truck
-    '''
-
-    df = pd.read_sql(test_sql, connection)
-
-    return render_template('vehicles.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
-
-@app.route('/vehicles/add', methods=['GET', 'POST'])
-def vehiclesAdd():
-    database = 'propane354.db'
-    connection = create_connection(database)
-
-    if request.method == 'POST':
-        vin = request.form['vin']
-        license_plate_number = request.form['license_plate_number']
-        capacity = request.form['capacity']
-        passenger_limit = request.form['passenger_limit']
-
-        insert_truck(connection, (vin, license_plate_number, capacity, passenger_limit))
-
-        return redirect(url_for('vehicles'))
-    else:
-        return render_template('vehicles-add.html')
+    return render_template('vehicles.html')
 
 @app.route('/calendar')
 def calendar():
