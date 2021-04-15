@@ -86,13 +86,6 @@ def inventoryList():
 def workOrder():
     return render_template('work-order.html')
 
-@app.route('/work-order/create', methods=['GET', 'POST'])
-def workOrderCreate():
-    if request.method == 'POST':
-        return 'Post'
-    else:
-        return render_template('work-order-create.html')
-
 @app.route('/work-order/list')
 def workOrderList():
     database = 'propane354.db'
@@ -106,7 +99,7 @@ def workOrderList():
     df = pd.read_sql(test_sql, connection)
     return render_template('work-order-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
 
-@app.route('/work-order/create')
+@app.route('/work-order/create', methods=['GET', 'POST'])
 def workOrderAdd():
     database = 'propane354.db'
     connection = create_connection(database)
@@ -114,8 +107,8 @@ def workOrderAdd():
     if request.method == 'POST':
         form = {}
         attributes = [
-            'rush-status', 'customer', 'po number', 'work to be done', 'tank size'
-            'liquid/vapour', 'qf', 'form factor'
+            'rush_status', 'customer', 'po_number', 'work_to_be_done', 'tank_size',
+            'liquid_vapour', 'qf', 'form_factor'
         ]
 
         for attribute in attributes:
@@ -131,7 +124,7 @@ def workOrderAdd():
         if (return_value != 'success'):
             return render_template('work-order-create.html', error=return_value)
         else:
-            return render_template('work-order-create.html', error='')
+            return redirect(url_for('workOrderList'))
     else:
         return render_template('work-order-create.html', error='')
 
@@ -155,17 +148,25 @@ def employeeAdd():
     connection = create_connection(database)
 
     if request.method == 'POST':
-        honorific = request.form['honorific']
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        email = request.form['email']
-        start_date = request.form['start_date']
-        position = request.form['position']
-        salary = request.form['salary']
+        form = {}
+        attributes = [
+            'email', 'first_name', 'last_name', 'honorific', 'start_date', 'salary', 'position'
+        ]
 
-        insert_employee(connection, (email, first_name, last_name, honorific, start_date, salary, position))
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
 
-        return redirect(url_for('empolyeeList'))
+        return_value = 'success'
+        new_employee = tuple(form.values())
+        return_value = insert_employee(connection, new_employee)
+        if (return_value != 'success'):
+            return render_template('employee-add.html', error=return_value)
+        else:
+            return redirect(url_for('employeeList'))
     else:
         return render_template('employee-add.html')
 
@@ -177,15 +178,29 @@ def employeeQualificationAdd():
     employees = cursor.execute('SELECT first_name, id FROM employee').fetchall();
 
     if request.method == 'POST':
-        id = request.form['id']
-        qualification = request.form['qualification']
+        form = {}
+        attributes = [
+            'id', 'qualification'
+        ]
+
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
 
         if id == "Select":
             return render_template('employee-qualification-add.html', employees=employees)
 
-        insert_employee_qualification(connection, (id, qualification))
+        return_value = 'success'
+        new_employee_qualification = tuple(form.values())
+        return_value = insert_employee_qualification(connection, new_employee_qualification)
 
-        return redirect(url_for('employeeList'))
+        if (return_value != 'success'):
+            return render_template('employee-qualification-add.html', employees=employees, error=return_value)
+        else:
+            return redirect(url_for('employeeList'))
     else:
         return render_template('employee-qualification-add.html', employees=employees)
 
@@ -234,7 +249,46 @@ def customersAdd():
 
 @app.route('/vehicles')
 def vehicles():
-    return render_template('vehicles.html')
+    database = 'propane354.db'
+    connection = create_connection(database)
+
+    test_sql = f'''
+        SELECT *
+        FROM truck
+    '''
+
+    df = pd.read_sql(test_sql, connection)
+
+    return render_template('vehicles.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+
+@app.route('/vehicles/add', methods=['GET', 'POST'])
+def vehiclesAdd():
+    database = 'propane354.db'
+    connection = create_connection(database)
+
+    if request.method == 'POST':
+        form = {}
+        attributes = [
+            'vin', 'license_plate_number', 'capacity', 'passenger_limit'
+        ]
+
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
+
+        return_value = 'success'
+        new_vehicle = tuple(form.values())
+        return_value = insert_truck(connection, new_vehicle)
+
+        if (return_value != 'success'):
+            return render_template('vehicles-add.html', error=return_value)
+        else:
+            return redirect(url_for('vehicles'))
+    else:
+        return render_template('vehicles-add.html')
 
 @app.route('/calendar')
 def calendar():

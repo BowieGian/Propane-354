@@ -7,11 +7,12 @@
 {% block body %}
 <div class="content">
 	<form method='GET' action="/work-order"><button class="back">Back</button></form>
-	<br>
+	<h1 style="text-align: center">Propane 354 Work Order Create</h1>
+
 	<form action="/work-order/create" method="POST">
 		<div class="grid">
-			<label for="rush-status">Rush Status:</label>
-			<select name="rush-status" id="rush-status">
+			<label for="rush_status">Rush Status:</label>
+			<select name="rush_status" id="rush_status">
 				<option value="Select">Select</option>
 				<option value="Standard">Standard</option>
 				<option value="Express">Express</option>
@@ -33,7 +34,7 @@
 				<option value="fibreglass">Fibreglass</option>
 			</select>
 			<label for="liquid_vapour">Liquid/Vapour:</label>
-			<select name="tank_material" id="tank_material">
+			<select name="liquid_vapour" id="liquid_vapour">
 				<option value="Select">Select</option>
 				<option value="liquid">Liquid</option>
 				<option value="vapour">Vapour</option>
