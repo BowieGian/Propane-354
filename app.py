@@ -239,12 +239,13 @@ def customersAdd():
         return_value = 'success'
         new_customer_values = tuple(form.values())
         return_value = insert_customer(connection, new_customer_values)
+        
         if (return_value != 'success'):
             return render_template('customers-add.html', error=return_value)
         else:
-            return render_template('customers-add.html', error='')
+            return redirect(url_for('customers'))
     else:
-        return render_template('customers-add.html',  error='')
+        return render_template('customers-add.html')
 
 
 @app.route('/vehicles')
