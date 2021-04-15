@@ -191,7 +191,46 @@ def employeeQualificationAdd():
 
 @app.route('/customers')
 def customers():
-    return render_template('customers.html')
+    database = 'propane354.db'
+    connection = create_connection(database)
+
+    test_sql = f'''
+        SELECT *
+        FROM customer
+    '''
+
+    df = pd.read_sql(test_sql, connection)
+    return render_template('customers.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+
+@app.route('/customers/add', methods=['GET', 'POST'])
+def customersAdd():
+    database = 'propane354.db'
+    connection = create_connection(database)
+
+    if request.method == 'POST':
+        form = {}
+        attributes = [
+            'email', 'company', 'credit_limit', 'first_name', 'last_name', 'honorific', 
+            'unit_number', 'street_number', 'street_name', 'postal_code'
+        ]
+
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
+
+        return_value = 'success'
+        new_customer_values = tuple(form.values())
+        return_value = insert_customer(connection, new_customer_values)
+        if (return_value != 'success'):
+            return render_template('customers-add.html', error=return_value)
+        else:
+            return render_template('customers-add.html', error='')
+    else:
+        return render_template('customers-add.html',  error='')
+
 
 @app.route('/vehicles')
 def vehicles():
