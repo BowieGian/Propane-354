@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Vehicle Add</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <form method='GET' action="/vehicles"><button class="back">Back</button></form>
+    <h1 style="text-align: center">Propane 354 Vehicle Add</h1>
+
+    <form action="/vehicles/add" method="POST" style="text-align: center">
+        <div class="grid">
+            <label for="vin">VIN:</label>
+            <input type="text" name="vin" id="vin">
+            <label for="license_plate_number">License Plate Number:</label>
+            <input type="text" name="license_plate_number" id="license_plate_number">
+            <label for="capacity">Capacity:</label>
+            <input type="number" name="capacity" id="capacity">
+            <label for="passenger_limit">Passenger Limit:</label>
+            <input type="number" name="passenger_limit" id="passenger_limit">
+        </div>
+        <input type="submit" value="Add" class="button">
+    </form>
+</div>
+{% endblock %}

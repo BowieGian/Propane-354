@@ -164,7 +164,34 @@ def customers():
 
 @app.route('/vehicles')
 def vehicles():
-    return render_template('vehicles.html')
+    database = 'propane354.db'
+    connection = create_connection(database)
+
+    test_sql = f'''
+        SELECT *
+        FROM truck
+    '''
+
+    df = pd.read_sql(test_sql, connection)
+
+    return render_template('vehicles.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+
+@app.route('/vehicles/add', methods=['GET', 'POST'])
+def vehiclesAdd():
+    database = 'propane354.db'
+    connection = create_connection(database)
+
+    if request.method == 'POST':
+        vin = request.form['vin']
+        license_plate_number = request.form['license_plate_number']
+        capacity = request.form['capacity']
+        passenger_limit = request.form['passenger_limit']
+
+        insert_truck(connection, (vin, license_plate_number, capacity, passenger_limit))
+
+        return redirect(url_for('vehicles'))
+    else:
+        return render_template('vehicles-add.html')
 
 @app.route('/calendar')
 def calendar():
