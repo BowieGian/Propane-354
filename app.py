@@ -110,7 +110,6 @@ def workOrderList():
 def workOrderAdd():
     database = 'propane354.db'
     connection = create_connection(database)
-    # cursor = connection.cursor()
 
     if request.method == 'POST':
         form = {}
