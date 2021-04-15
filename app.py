@@ -33,6 +33,47 @@ def home():
 def inventory():
     return render_template('inventory.html')
 
+@app.route('/inventory/update', methods=['GET', 'POST'])
+def inventoryUpdate():
+    database = 'propane354.db'
+    connection = create_connection(database)
+    cursor = connection.cursor()
+
+    serial_numbers = cursor.execute('SELECT serial_number FROM propane_tank WHERE type_of_tank = "Fiber";').fetchall()
+    fiber_serial_number_last_visual_check_date = pd.read_sql('SELECT serial_number, last_visual_check_date FROM propane_tank WHERE type_of_tank = "Fiber";', connection)    
+
+    if request.method == 'POST':
+        serial_number = request.form['serial_number']
+        updated_last_visual_check_date = request.form['last_visual_check_date']
+
+        serial_number_updated_last_visual_check_date = [serial_number, updated_last_visual_check_date]
+        return_value = update_propane_tank_last_visual_check_date(connection, serial_number_updated_last_visual_check_date)
+        if (return_value != 'success'):
+            return render_template(
+                'inventory-update.html',
+                tables=[fiber_serial_number_last_visual_check_date.to_html(classes='data', index=False)],
+                titles=fiber_serial_number_last_visual_check_date.columns.values,
+                error=return_value,
+                serial_numbers=serial_numbers
+            ) 
+        else:
+            fiber_serial_number_last_visual_check_date = pd.read_sql('SELECT serial_number, last_visual_check_date FROM propane_tank WHERE type_of_tank = "Fiber";', connection)
+            return render_template(
+                'inventory-update.html',
+                tables=[fiber_serial_number_last_visual_check_date.to_html(classes='data', index=False)],
+                titles=fiber_serial_number_last_visual_check_date.columns.values,
+                error='',
+                serial_numbers=serial_numbers
+            ) 
+    else:
+        return render_template(
+            'inventory-update.html',
+            tables=[fiber_serial_number_last_visual_check_date.to_html(classes='data', index=False)],
+            titles=fiber_serial_number_last_visual_check_date.columns.values,
+            error='',
+            serial_numbers=serial_numbers
+        )
+    
 @app.route('/inventory/add', methods=['GET', 'POST'])
 def inventoryAdd():
     database = 'propane354.db'
