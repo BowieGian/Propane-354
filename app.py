@@ -132,10 +132,10 @@ def employeeAdd():
         last_name = request.form['last_name']
         email = request.form['email']
         start_date = request.form['start_date']
-        department = request.form['department']
+        position = request.form['position']
         salary = request.form['salary']
 
-        # add employee ------------------
+        insert_employee(connection, (email, first_name, last_name, honorific, start_date, salary, position))
 
         return redirect(url_for('empolyeeList'))
     else:
@@ -146,13 +146,16 @@ def employeeQualificationAdd():
     database = 'propane354.db'
     connection = create_connection(database)
     cursor = connection.cursor()
-    employees = cursor.execute('SELECT first_name FROM employee').fetchall();
+    employees = cursor.execute('SELECT first_name, id FROM employee').fetchall();
 
     if request.method == 'POST':
-        first_name = request.form['first_name']
+        id = request.form['id']
         qualification = request.form['qualification']
 
-        # add qualification ----------------------
+        if id == "Select":
+            return render_template('employee-qualification-add.html', employees=employees)
+
+        insert_employee_qualification(connection, (id, qualification))
 
         return redirect(url_for('employeeList'))
     else:
