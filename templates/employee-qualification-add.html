@@ -11,11 +11,11 @@
 
     <form action="/employee-qualification-add" method="POST" style="text-align: center">
         <div class="grid">
-            <label for="first_name">First Name:</label>
-            <select name="first_name" id="first_name">
+            <label for="id">First Name:</label>
+            <select name="id" id="id">
                 <option value="Select">Select</option>
                 {% for employee in employees %}
-                <option value="{{ employee[0] }}">{{ employee[0] }}</option>
+                <option value="{{ employee[1] }}">{{ employee[0] }} (ID: {{ employee[1] }})</option>
                 {% endfor %}
             </select>
             <label for="qualification">Qualification:</label>
