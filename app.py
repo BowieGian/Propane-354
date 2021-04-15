@@ -86,13 +86,6 @@ def inventoryList():
 def workOrder():
     return render_template('work-order.html')
 
-@app.route('/work-order/create', methods=['GET', 'POST'])
-def workOrderCreate():
-    if request.method == 'POST':
-        return 'Post'
-    else:
-        return render_template('work-order-create.html')
-
 @app.route('/work-order/list')
 def workOrderList():
     database = 'propane354.db'
@@ -106,7 +99,7 @@ def workOrderList():
     df = pd.read_sql(test_sql, connection)
     return render_template('work-order-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
 
-@app.route('/work-order/create')
+@app.route('/work-order/create', methods=['GET', 'POST'])
 def workOrderAdd():
     database = 'propane354.db'
     connection = create_connection(database)
@@ -114,8 +107,8 @@ def workOrderAdd():
     if request.method == 'POST':
         form = {}
         attributes = [
-            'rush-status', 'customer', 'po number', 'work to be done', 'tank size'
-            'liquid/vapour', 'qf', 'form factor'
+            'rush_status', 'customer', 'po_number', 'work_to_be_done', 'tank_size',
+            'liquid_vapour', 'qf', 'form_factor'
         ]
 
         for attribute in attributes:
@@ -131,7 +124,7 @@ def workOrderAdd():
         if (return_value != 'success'):
             return render_template('work-order-create.html', error=return_value)
         else:
-            return render_template('work-order-create.html', error='')
+            return redirect(url_for('workOrderList'))
     else:
         return render_template('work-order-create.html', error='')
 
