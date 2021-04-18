@@ -226,6 +226,8 @@ def employeeList():
             FROM employee
         '''
 
+    filter = "all"
+
     if request.method == 'POST':
         filter = request.form['filter']
 
@@ -260,7 +262,7 @@ def employeeList():
             '''
     df = pd.read_sql(test_sql, connection)
 
-    return render_template('employee-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+    return render_template('employee-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values, filter=filter)
 
 @app.route('/employee-list/add', methods=['GET', 'POST'])
 def employeeAdd():

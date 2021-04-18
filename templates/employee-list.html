@@ -19,9 +19,9 @@
         <div class="grid">
             <label for="filter">Filter:</label>
             <select name="filter" id="filter">
-                <option value="all">Nothing (select all)</option>
-                <option value="tank">Worked with all tanks</option>
-                <option value="truck">Worked with all trucks</option>
+                <option value="all" {{'selected' if filter == "all"}}>Nothing (select all)</option>
+                <option value="tank" {{'selected' if filter == "tank"}}>Worked with all tanks</option>
+                <option value="truck" {{'selected' if filter == "truck"}}>Worked with all trucks</option>
             </select>
         </div>
         <input type="submit" value="Filter" class="button">
