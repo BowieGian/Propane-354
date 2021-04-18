@@ -193,9 +193,38 @@ def workOrderAdd():
 def workOrderEmployee():
     return render_template('work-order-employee.html')
 
-
+@app.route('/work-order/propane-tank', methods=['GET', 'POST'])
 def workOrderPropaneTank():
-    return render_template('work-order-propane-tank.html')
+    database = 'propane354.db'
+    connection = create_connection(database)
+    cursor = connection.cursor()
+
+    order_number = cursor.execute('SELECT order_number FROM work_order;').fetchall();
+    propane_tank_serial_number = cursor.execute('SELECT serial_number FROM propane_tank;').fetchall();
+
+    if request.method == 'POST':
+        form = {}
+        attributes = [
+            'work_order_number','propane_tank_serial_number'
+        ]
+
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
+        
+        return_value = 'success'
+        new_work_orders_propane_tanks = tuple(form.values())
+        return_value = insert_work_order_propane_tank(connection, new_work_orders_propane_tanks)
+        if (return_value != 'success'):
+            return render_template('work-order-propane-tank.html', order_number=order_number, propane_tank_serial_number=propane_tank_serial_number,error=return_value)
+        else:
+            return render_template('work-order-propane-tank.html', order_number=order_number, propane_tank_serial_number=propane_tank_serial_number, error='')
+    else:
+        return render_template('work-order-propane-tank.html', order_number=order_number, propane_tank_serial_number=propane_tank_serial_number, error='')
+
 
 
 @app.route('/work-order/delete', methods=['GET', 'POST'])

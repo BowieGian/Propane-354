@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Work Order Add Propane Tank</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+	<form method='GET' action="/work-order"><button class="back">Back</button></form>
+	<h1 style="text-align: center">Propane 354 Work Order Add Propane Tank</h1>
+
+    <form action="/work-order/propane-tank" method="POST">
+        <div class="grid">
+            <label for="work_order_number">Work Order Number:</label>
+                <select name="work_order_number" id="work_order_number">
+                    <option value="">None (Select Work Order Number)</option>
+                    {% for work_order_number in work_order_number %}
+                    <option value="{{ work_order_number [0] }}">{{ work_order_number [0] }}</option>
+                    {% endfor %}
+                </select>
+            <label for="propane_tank_serial_number">Propane Tank Serial Number:</label>
+			<select name="propane_tank_serial_number" id="propane_tank_serial_number">
+                <option value="">None (Select Propane Tank Serial Number)</option>
+                {% for propane_tank_serial_number in propane_tank_serial_number %}
+                <option value="{{ propane_tank_serial_number [0] }}">{{ propane_tank_serial_number [0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+		<input type="submit" value="Add" class="button">
+	</form>
+	
+</div>
+
+{% endblock %}

@@ -263,12 +263,3 @@ def left_join_customer_on_work_order(connection):
     left_join_results = pd.read_sql(sql, connection)
     return left_join_results
 
-    
-    
-# def count_active_work_order(connection):
-#     sql = f'''
-#         SELECT COUNT(*) AS `Count`
-#         FROM work_order;
-#     '''
-#     work_order_counts = pd.read_sql(sql, connection)
-#     return work_order_counts
