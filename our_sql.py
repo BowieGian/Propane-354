@@ -214,6 +214,7 @@ def select_propane_tank(connection, group_by_attribute):
         select_propane_tank_results = group_by_aggregate_propane_tank(connection, group_by_attribute)
     return select_propane_tank_results
 
+
 def update_propane_tank_last_visual_check_date(connection, serial_number_updated_last_visual_check_date):
     sql = f'''
         UPDATE propane_tank
@@ -225,10 +226,44 @@ def update_propane_tank_last_visual_check_date(connection, serial_number_updated
         cursor = connection.cursor()
         cursor.execute(sql)
         connection.commit()
-        print(serial_number_updated_last_visual_check_date[1])
         return 'success'
     except Error as e:
         return str(e)
+
+
+def delete_work_order(connection, work_order_number):
+    sql = f'''
+        DELETE FROM work_order
+        WHERE order_number = {work_order_number};
+    '''
+    
+    try:
+        # enable foreign key support https://sqlite.org/foreignkeys.html
+        connection.execute('PRAGMA foreign_keys = ON;') 
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        connection.commit()
+        return 'success'
+    except Error as e:
+        return str(e)
+
+
+def left_join_customer_on_work_order(connection):
+    sql = '''
+    SELECT
+        order_number, 
+        order_status,
+        customer_email, 
+        customer.honorific AS customer_honorific, 
+        customer.first_name AS customer_first_name, 
+        customer.last_name AS customer_last_name
+    FROM work_order
+    LEFT JOIN customer ON customer.email = work_order.customer_email;
+    '''
+    left_join_results = pd.read_sql(sql, connection)
+    return left_join_results
+
+    
     
 # def count_active_work_order(connection):
 #     sql = f'''
