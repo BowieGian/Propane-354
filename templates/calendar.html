@@ -10,12 +10,16 @@
 
 {% block body %}
 
+
 {% for x in data %}
 {{x[1]}}
 {% endfor %}
 
 <div class="content">
-    <h1 style="text-align: center">Employee Availability</h1>
+    <h1 style="text-align: center">Employee Availability</h1
+</div>
+<div class="back_button">
+    <form method='GET' action="/home"><button class="back">Back</button></form>
 </div>
 <div id="calendar">
     <script>
