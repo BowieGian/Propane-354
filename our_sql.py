@@ -9,6 +9,8 @@ def create_connection(db_file):
     connection = None
     try:
         connection = sqlite3.connect(db_file)
+        # enable foreign key support https://sqlite.org/foreignkeys.html
+        connection.execute('PRAGMA foreign_keys = ON;') 
         return connection
     except Error as e:
         print(e)
