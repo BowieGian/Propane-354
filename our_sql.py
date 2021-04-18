@@ -9,8 +9,6 @@ def create_connection(db_file):
     connection = None
     try:
         connection = sqlite3.connect(db_file)
-        # enable foreign key support https://sqlite.org/foreignkeys.html
-        connection.execute('PRAGMA foreign_keys = ON;') 
         return connection
     except Error as e:
         print(e)
@@ -240,6 +238,8 @@ def delete_work_order(connection, work_order_number):
     '''
     
     try:
+        # enable foreign key support https://sqlite.org/foreignkeys.html
+        connection.execute('PRAGMA foreign_keys = ON;') 
         cursor = connection.cursor()
         cursor.execute(sql)
         connection.commit()
