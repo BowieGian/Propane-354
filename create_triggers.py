@@ -35,18 +35,6 @@ def create_triggers(connection):
             END;
         '''                                          
 
-    # does not flag yyyy-dd-mm or invalid years, months or days
-    create_trigger_sql['validate_employee_start_date'] = '''
-        CREATE TRIGGER validate_employee_start_date
-        BEFORE INSERT ON employee
-        BEGIN
-            SELECT CASE 
-                WHEN NEW.start_date NOT LIKE '____-__-__'
-                THEN RAISE (ABORT, 'Invalid date. Date should be in yyyy-mm-dd format.')
-            END;
-        END;
-    '''
-
     # update trigger for propane tank last visual check date
     create_trigger_sql['validate_new_last_visual_check_date'] = f'''
         CREATE TRIGGER validate_new_last_visual_check_date
