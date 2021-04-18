@@ -14,7 +14,7 @@
             <label for="work_order_number">Work Order Number:</label>
                 <select name="work_order_number" id="work_order_number">
                     <option value="">None (Select Work Order Number)</option>
-                    {% for work_order_number in work_order_number %}
+                    {% for work_order_number in work_order_numbers %}
                     <option value="{{ work_order_number [0] }}">{{ work_order_number [0] }}</option>
                     {% endfor %}
                 </select>

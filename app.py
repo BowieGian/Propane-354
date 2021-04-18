@@ -230,7 +230,7 @@ def workOrderPropaneTank():
     connection = create_connection(database)
     cursor = connection.cursor()
 
-    order_number = cursor.execute('SELECT order_number FROM work_order;').fetchall();
+    work_order_numbers = cursor.execute('SELECT order_number FROM work_order;').fetchall();
     propane_tank_serial_number = cursor.execute('SELECT serial_number FROM propane_tank;').fetchall();
 
     if request.method == 'POST':
@@ -250,11 +250,11 @@ def workOrderPropaneTank():
         new_work_orders_propane_tanks = tuple(form.values())
         return_value = insert_work_order_propane_tank(connection, new_work_orders_propane_tanks)
         if (return_value != 'success'):
-            return render_template('work-order-propane-tank.html', order_number=order_number, propane_tank_serial_number=propane_tank_serial_number,error=return_value)
+            return render_template('work-order-propane-tank.html', work_order_numbers=work_order_numbers, propane_tank_serial_number=propane_tank_serial_number,error=return_value)
         else:
-            return render_template('work-order-propane-tank.html', order_number=order_number, propane_tank_serial_number=propane_tank_serial_number, error='')
+            return render_template('work-order-propane-tank.html', work_order_numbers=work_order_numbers, propane_tank_serial_number=propane_tank_serial_number, error='')
     else:
-        return render_template('work-order-propane-tank.html', order_number=order_number, propane_tank_serial_number=propane_tank_serial_number, error='')
+        return render_template('work-order-propane-tank.html', work_order_numbers=work_order_numbers, propane_tank_serial_number=propane_tank_serial_number, error='')
 
 
 
