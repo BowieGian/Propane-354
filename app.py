@@ -174,16 +174,40 @@ def workOrderDelete():
     database = 'propane354.db'
     connection = create_connection(database)
     cursor = connection.cursor()
-    work_orders = cursor.execute('SELECT order_number FROM work_order').fetchall();
+    work_order_numbers = cursor.execute('SELECT order_number FROM work_order').fetchall();
 
+    work_orders = pd.read_sql('SELECT * FROM work_order;', connection)
+    work_order_employee = pd.read_sql('SELECT * FROM work_order_employee;', connection)
+    work_order_propane_tank = pd.read_sql('SELECT * FROM work_order_propane_tank;', connection)
+    
     if request.method == 'POST':
         order_number = request.form['order_number']
+        delete_work_order(connection, order_number)
 
-        # delete work order --------------------------
-
-        return redirect(url_for('workOrderList'))
+        work_orders = pd.read_sql('SELECT * FROM work_order;', connection)
+        work_order_employee = pd.read_sql('SELECT * FROM work_order_employee;', connection)
+        work_order_propane_tank = pd.read_sql('SELECT * FROM work_order_propane_tank;', connection)
+        return render_template(
+            'work-order-delete.html',
+            work_order_numbers=work_order_numbers,
+            tables=[
+                work_orders.to_html(classes='data', index=False),
+                work_order_employee.to_html(classes='data', index=False),
+                work_order_propane_tank.to_html(classes='data', index=False)
+            ],
+            titles=[work_orders.columns.values, work_order_employee.columns.values, work_order_propane_tank.columns.values]
+        )
     else:
-        return render_template('work-order-delete.html', work_orders=work_orders)
+        return render_template(
+            'work-order-delete.html',
+            work_order_numbers=work_order_numbers,
+            tables=[
+                work_orders.to_html(classes='data', index=False),
+                work_order_employee.to_html(classes='data', index=False),
+                work_order_propane_tank.to_html(classes='data', index=False)
+            ],
+            titles=[work_orders.columns.values, work_order_employee.columns.values, work_order_propane_tank.columns.values]
+        )
 
 @app.route('/employee-list')
 def employeeList():
