@@ -209,6 +209,14 @@ def workOrderDelete():
             titles=[work_orders.columns.values, work_order_employee.columns.values, work_order_propane_tank.columns.values]
         )
 
+@app.route('/work-order/customer-name')
+def workOrderJoin():
+    database = 'propane354.db'
+    connection = create_connection(database)
+    
+    df = left_join_customer_on_work_order(connection)
+    return render_template('work-order-customer-name.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+
 @app.route('/employee-list')
 def employeeList():
     database = 'propane354.db'
