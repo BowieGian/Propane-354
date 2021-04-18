@@ -131,11 +131,18 @@ def populate_work_order_propane_tank(connection):
 
 def populate_delivery(connection):
     deliveries = [
-        ('12345', 2, '2BG10509500821132', 'JohnSmith@bigCompany.com', '2021-03-13'),
-        ('24680', 2, '2BG10509500821132', 'WalterBiggins@smallCompany.com', '2021-03-13'),
-        ('13579', 2, '2BG10509500821132', 'AlbertWoo@smallCompany.com', '2021-03-14'),
-        ('12460', 2, '2BG10509500821132', 'SamYang@smallCompany.com', '2021-03-15'),
-        ('00001', 2, '2BG10509500821132', 'SarahBrown@smallCompany.com', '2021-03-17')
+        ('12345', 1, '2BG10509500821132', 'JohnSmith@bigCompany.com', '2021-03-13'),
+        ('24680', 1, '2BG10509500821132', 'WalterBiggins@smallCompany.com', '2021-03-13'),
+        ('13579', 1, '2BG10509500821132', 'AlbertWoo@smallCompany.com', '2021-03-14'),
+        ('12460', 1, '2BG10509500821132', 'SamYang@smallCompany.com', '2021-03-15'),
+        ('00001', 1, '2BG10509500821132', 'SarahBrown@smallCompany.com', '2021-03-17'),
+
+        # test employee worked with all trucks
+        ('12345', 2, '2BG10509500821682', 'JohnSmith@bigCompany.com', '2021-03-13'),
+        ('12345', 2, '2BG10509500821542', 'WalterBiggins@smallCompany.com', '2021-03-13'),
+        ('12345', 2, '2BG10509500821321', 'AlbertWoo@smallCompany.com', '2021-03-14'),
+        ('12345', 2, '2BG10509500821132', 'SamYang@smallCompany.com', '2021-03-15'),
+        ('12345', 2, '2BG10509500821246', 'SarahBrown@smallCompany.com', '2021-03-17')
     ]
     for delivery in deliveries:
         insert_delivery(connection, delivery)
