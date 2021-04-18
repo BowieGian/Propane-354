@@ -33,12 +33,7 @@ def create_triggers(connection):
                     THEN RAISE (ABORT, 'Invalid date. Date should be in yyyy-mm-dd format.')
                 END;
             END;
-        '''
-
-    # TODO - add
-    # propane tank - last visual check date, sell date for propane tank (IS NOT NULL AND NOT LIKE)
-    # work order - expected completion date
-                                                     
+        '''                                          
 
     # does not flag yyyy-dd-mm or invalid years, months or days
     create_trigger_sql['validate_employee_start_date'] = '''
@@ -87,10 +82,10 @@ def create_triggers(connection):
 
 def delete_triggers(connection):
     trigger_names = [
-        'validate_employee_start_date'
-        'validate_propane_tank_expiration_date'
-        'validate_work_order_order_date'
-        'validate_delivery_date'
+        'validate_employee_start_date',
+        'validate_propane_tank_expiration_date',
+        'validate_work_order_order_date',
+        'validate_delivery_date',
         
         'validate_employee_email',
         'validate_customer_email',
