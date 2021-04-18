@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Customer Add</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <form method='GET' action="/customers"><button class="back">Back</button></form>
+    <h1 style="text-align: center">Propane 354 Customer Add</h1>
+
+    <form action="/customers/add" method="POST" style="text-align: center">
+        <div class="grid">
+            <label for="Honorific">Name:</label>
+            <div class="grid-name">
+                <input type="text" name="honorific" id="honorific" placeholder="Honorific">
+                <input type="text" name="first_name" id="first_name" placeholder="First Name">
+                <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+            </div>
+            <label for="email">E-mail:</label>
+            <input type="email" name="email" id="email">
+            <label for="company">Company:</label>
+            <input type="text" name="company" id="company">
+            <label for="Address">Address:</label>
+            <div class="grid-name">
+                <input type="text" name="unit_number" id="unit_number" placeholder="Unit Number">
+                <input type="text" name="street_number" id="street_number" placeholder="Street Number">
+                <input type="text" name="street_name" id="street_name" placeholder="Street Name">
+                <input type="text" name="postal_code" id="postal_code" placeholder="Postal Code">
+            </div>
+            <label for="credit_limit">Credit Limit:</label>
+            <input type="text" name="credit_limit" id="credit_limit">
+        </div>
+        <input type="submit" value="Add" class="button">
+    </form>
+</div>
+{% endblock %}
