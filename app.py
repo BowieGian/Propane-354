@@ -133,26 +133,37 @@ def workOrderList():
     database = 'propane354.db'
     connection = create_connection(database)
 
-    active_work_orders = pd.read_sql('SELECT COUNT(*) FROM work_order', connection)
+    active_work_orders = pd.read_sql("""SELECT COUNT(*) AS IN_PROGRESS FROM work_order WHERE order_status LIKE 
+    '%In Progress%'""", connection)
+    onHold_work_orders = pd.read_sql("""SELECT COUNT(*) AS ON_HOLD FROM work_order WHERE order_status LIKE 
+    '%On Hold%'""", connection)
+    completed_work_orders = pd.read_sql("""SELECT COUNT(*) AS COMPLETED FROM work_order WHERE order_status LIKE 
+    '%Complete%'""", connection)
     work_orders = pd.read_sql('SELECT * FROM work_order', connection)
     return render_template(
         'work-order-list.html', 
         tables=[
             active_work_orders.to_html(classes='data', index=False),
+            onHold_work_orders.to_html(classes='data', index=False),
+            completed_work_orders.to_html(classes='data', index=False),
             work_orders.to_html(classes='data', index=False)
             ], 
-            titles=[active_work_orders.columns.values, work_orders.columns.values]
+            titles=[active_work_orders.columns.values, onHold_work_orders.columns.values, 
+            completed_work_orders.columns.values, work_orders.columns.values]
     )
 
 @app.route('/work-order/create', methods=['GET', 'POST'])
 def workOrderAdd():
     database = 'propane354.db'
     connection = create_connection(database)
+    cursor = connection.cursor()
+
+    customer_emails = cursor.execute('SELECT email FROM customer;').fetchall();
 
     if request.method == 'POST':
         form = {}
         attributes = [
-            'rush_status', 'customer', 'po_number', 'work_to_be_done', 'tank_size',
+            'rush_status', 'customer_email', 'po_number', 'work_to_be_done', 'tank_size',
             'liquid_vapour', 'qf', 'form_factor'
         ]
 
@@ -167,11 +178,11 @@ def workOrderAdd():
         new_work_orders = tuple(form.values())
         return_value = insert_work_order(connection, new_work_orders)
         if (return_value != 'success'):
-            return render_template('work-order-create.html', error=return_value)
+            return render_template('work-order-create.html', customer_emails=customer_emails, error=return_value)
         else:
-            return redirect(url_for('workOrderList'))
+            return render_template('work-order-create.html', customer_emails=customer_emails, error='')
     else:
-        return render_template('work-order-create.html', error='')
+        return render_template('work-order-create.html', customer_emails=customer_emails, error='')
 
 @app.route('/work-order/delete', methods=['GET', 'POST'])
 def workOrderDelete():

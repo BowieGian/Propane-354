@@ -18,31 +18,31 @@
 				<option value="Express">Express</option>
 				<option value="Same Day">Same Day</option>
 			</select>
-			<label for="customer">Customer:</label>
-			<input type="text" name="customer" id="customer">
+			<label for="customer_email">Customer Email:</label>
+			<select name="customer_email" id="customer_email">
+                <option value="">None (Select Customer Email)</option>
+                {% for customer_email in customer_emails %}
+                <option value="{{ customer_email [0] }}">{{ customer_email [0] }}</option>
+                {% endfor %}
+            </select>
 			<label for="po_number">PO Number:</label>
 			<input type="text" name="po_number" id="po_number">
-			<label for="work_to_be_done">Work To Be Done:</label>
-			<input type="text" name="work_to_be_done" id="work_to_be_done">
+			<label for="order_total">Order Total:</label>
+			<input type="text" name="order_total" id="order_total">
 			<label for="tank_size">Tank Size:</label>
 			<input type="text" name="tank_size" id="tank_size">
-			<label for="tank_material">Tank Material:</label>
-			<select name="tank_material" id="tank_material">
+			<label for="payment_method">Payment Method:</label>
+			<select name="payment_method" id="payment_method">
 				<option value="Select">Select</option>
-				<option value="steel">Steel</option>
-				<option value="aluminium">Aluminium</option>
-				<option value="fibreglass">Fibreglass</option>
+				<option value="credit">Credit</option>
+				<option value="debit">Debit</option>
+				<option value="cheque">Cheque</option>
+				<option value="cash">Cash</option>
 			</select>
-			<label for="liquid_vapour">Liquid/Vapour:</label>
-			<select name="liquid_vapour" id="liquid_vapour">
-				<option value="Select">Select</option>
-				<option value="liquid">Liquid</option>
-				<option value="vapour">Vapour</option>
-			</select>
-			<label for="qf">QF:</label>
-			<input type="text" name="qf" id="qf">
-			<label for="form_factor">Form Factor:</label>
-			<input type="text" name="form_factor" id="form_factor">
+			<label for="order_date">Order Date:</label>
+			<input type="text" name="order_date" id="order_date">
+			<label for="expected_completion_date">Expected Completion Date:</label>
+			<input type="text" name="expected_completion_date" id="expected_completion_date">
 		</div>
 		<input type="submit" value="Create" class="button">
 	</form>
