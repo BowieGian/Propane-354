@@ -128,6 +128,22 @@ def workOrderAdd():
     else:
         return render_template('work-order-create.html', error='')
 
+@app.route('/work-order/delete', methods=['GET', 'POST'])
+def workOrderDelete():
+    database = 'propane354.db'
+    connection = create_connection(database)
+    cursor = connection.cursor()
+    work_orders = cursor.execute('SELECT order_number FROM work_order').fetchall();
+
+    if request.method == 'POST':
+        order_number = request.form['order_number']
+
+        # delete work order --------------------------
+
+        return redirect(url_for('workOrderList'))
+    else:
+        return render_template('work-order-delete.html', work_orders=work_orders)
+
 @app.route('/employee-list')
 def employeeList():
     database = 'propane354.db'

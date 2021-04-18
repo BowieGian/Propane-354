@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Work Order Delete</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <form method='GET' action="/work-order"><button class="back">Back</button></form>
+    <h1 style="text-align: center">Propane 354 Work Order Delete</h1>
+
+    <form action="/work-order/delete" method="POST" style="text-align: center">
+        <div class="grid">
+            <label for="order_number">Order Number:</label>
+            <select name="order_number" id="order_number">
+                <option value="Select">Select</option>
+                {% for work_order in work_orders %}
+                <option value="{{ work_order[0] }}">{{ work_order[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="submit" value="Delete" class="button">
+    </form>
+</div>
+{% endblock %}
