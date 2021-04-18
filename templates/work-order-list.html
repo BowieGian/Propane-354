@@ -9,12 +9,15 @@
 	<form method='GET' action="/work-order"><button class="back">Back</button></form>
 	<h1 style="text-align: center">Propane 354 Work Order List</h1>
 
-	<div class = "data">
-		{% for table in tables %}
-				{{titles[loop.index]}}
-				{{ table|safe }}
-		{% endfor %}
-	</div>
+    <div class="data">
+        <div class="grid-work-order">
+            {{ tables[0]|safe }}
+            {{ tables[1]|safe }}
+            {{ tables[2]|safe }}
+        </div>
+        <br>
+        {{ tables[3]|safe }}
+    </div>
 	
 </div>
 {% endblock %}

@@ -6,6 +6,16 @@
 
 {% block body %}
 <div class="content">
+    <form method='GET' action="/home"><button class="back">Back</button></form>
     <h1 style="text-align: center">Propane 354 Employee List</h1>
+
+    <div class="data">
+        {% for table in tables %}
+        {{ table|safe }}
+        {% endfor %}
+    </div>
+    <br>
+    <form method='GET' action="/employee-list/add"><button class="button">Add Employee</button></form>
+    <form method='GET' action="/employee-qualification-add"><button class="button">Add Employee Qualification</button></form>
 </div>
 {% endblock %}

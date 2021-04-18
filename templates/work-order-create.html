@@ -7,20 +7,44 @@
 {% block body %}
 <div class="content">
 	<form method='GET' action="/work-order"><button class="back">Back</button></form>
-	<br>
+	<h1 style="text-align: center">Propane 354 Work Order Create</h1>
+
 	<form action="/work-order/create" method="POST">
 		<div class="grid">
-			<label for="rush-status">Rush Status:</label>
-			<select name="rush-status" id="rush-status">
+			<label for="rush_status">Rush Status:</label>
+			<select name="rush_status" id="rush_status">
 				<option value="Select">Select</option>
 				<option value="Standard">Standard</option>
 				<option value="Express">Express</option>
 				<option value="Same Day">Same Day</option>
 			</select>
-
-			<label for="customer">Customer:</label>
-			<input type="text" name="customer" id="customer">
+			<label for="customer_email">Customer Email:</label>
+			<select name="customer_email" id="customer_email">
+                <option value="">None (Select Customer Email)</option>
+                {% for customer_email in customer_emails %}
+                <option value="{{ customer_email [0] }}">{{ customer_email [0] }}</option>
+                {% endfor %}
+            </select>
+			<label for="po_number">PO Number:</label>
+			<input type="text" name="po_number" id="po_number">
+			<label for="order_total">Order Total:</label>
+			<input type="text" name="order_total" id="order_total">
+			<label for="tank_size">Tank Size:</label>
+			<input type="text" name="tank_size" id="tank_size">
+			<label for="payment_method">Payment Method:</label>
+			<select name="payment_method" id="payment_method">
+				<option value="Select">Select</option>
+				<option value="credit">Credit</option>
+				<option value="debit">Debit</option>
+				<option value="cheque">Cheque</option>
+				<option value="cash">Cash</option>
+			</select>
+			<label for="order_date">Order Date:</label>
+			<input type="text" name="order_date" id="order_date">
+			<label for="expected_completion_date">Expected Completion Date:</label>
+			<input type="text" name="expected_completion_date" id="expected_completion_date">
 		</div>
+		<input type="submit" value="Create" class="button">
 	</form>
 	
 </div>

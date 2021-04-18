@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Work Order Delete</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <form method='GET' action="/work-order"><button class="back">Back</button></form>
+    <h1 style="text-align: center">Propane 354 Work Order Delete</h1>
+
+    <form action="/work-order/delete" method="POST">
+	{{ tables[0]|safe }}
+	<br>
+	<div class="data">
+            <div class="grid-work-order">
+                {{ tables[1]|safe }}
+                {{ tables[2]|safe }}
+            </div>
+        </div>
+        <div class="grid">
+            <label for="order_number">Order Number:</label>
+            <select name="order_number" id="order_number">
+                <option value="Select">Select</option>
+                {% for work_order_number in work_order_numbers %}
+                <option value="{{ work_order_number [0] }}">{{ work_order_number [0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="submit" value="Delete" class="button">
+    </form>
+</div>
+{% endblock %}

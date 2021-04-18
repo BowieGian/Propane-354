@@ -6,6 +6,15 @@
 
 {% block body %}
 <div class="content">
+    <form method='GET' action="/home"><button class="back">Back</button></form>
     <h1 style="text-align: center">Propane 354 Vehicles</h1>
+
+    <div class="data">
+        {% for table in tables %}
+        {{ table|safe }}
+        {% endfor %}
+    </div>
+    <br>
+    <form method='GET' action="/vehicles/add"><button class="button">Add Vehicle</button></form>
 </div>
 {% endblock %}

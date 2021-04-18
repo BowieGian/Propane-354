@@ -39,6 +39,18 @@ body, html {
     box-sizing: border-box;
 }
 
+.grid-name {
+    display: grid;
+    grid-template-columns: 10% 45% 45%;
+    grid-gap: 5px;
+}
+
+.grid-work-order {
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    grid-gap: 5px;
+}
+
 .data {
     margin-left: auto;
     margin-right: auto;

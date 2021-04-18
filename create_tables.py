@@ -107,7 +107,7 @@ def create_tables(connection):
 
     create_table_sql['work_order'] = '''
         CREATE TABLE IF NOT EXISTS work_order(
-            order_number integer NOT NULL,
+            order_number integer UNIQUE NOT NULL,
             customer_email text NOT NULL,
             order_total integer NOT NULL,
             order_status text NOT NULL,
@@ -134,7 +134,7 @@ def create_tables(connection):
                 employee_id
             ),
             FOREIGN KEY (work_order_number)
-                REFERENCES work_order (order_number),
+                REFERENCES work_order (order_number) ON DELETE CASCADE,
             FOREIGN KEY (employee_id)
                 REFERENCES employee (id)
         );
@@ -149,7 +149,7 @@ def create_tables(connection):
                 propane_tank_serial_number
             ),
             FOREIGN KEY (work_order_number)
-                REFERENCES work_order (order_number),
+                REFERENCES work_order (order_number) ON DELETE CASCADE,
             FOREIGN KEY(propane_tank_serial_number)
                 REFERENCES propane_tank (serial_number) 
         );

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Work Order Customer Name</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+	<form method='GET' action="/work-order"><button class="back">Back</button></form>
+	<h1 style="text-align: center">Propane 354 Work Order Customer Name</h1>
+
+	<div class = "data">
+		{% for table in tables %}
+		{{ table|safe }}
+		{% endfor %}
+	</div>
+	
+</div>
+{% endblock %}
