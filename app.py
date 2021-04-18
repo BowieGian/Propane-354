@@ -174,7 +174,7 @@ def workOrderDelete():
     database = 'propane354.db'
     connection = create_connection(database)
     cursor = connection.cursor()
-    work_order_numbers = cursor.execute('SELECT order_number FROM work_order').fetchall();
+    work_order_numbers = cursor.execute('SELECT order_number FROM work_order').fetchall()
 
     work_orders = pd.read_sql('SELECT * FROM work_order;', connection)
     work_order_employee = pd.read_sql('SELECT * FROM work_order_employee;', connection)
