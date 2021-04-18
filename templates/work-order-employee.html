@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Work Order Add Employee</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <form method='GET' action="/work-order"><button class="back">Back</button></form>
+    <h1 style="text-align: center">Propane 354 Work Order Add Employee</h1>
+
+    <form action="/work-order/employee" method="POST" style="text-align: center">
+        <div class="grid">
+            <label for="work_order_number">Work Order Number:</label>
+            <select name="work_order_number" id="work_order_number">
+                <option value="Select">Select</option>
+                {% for workOrder in workOrders %}
+                <option value="{{ workOrder[0] }}">{{ workOrder[0] }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="employee_id">First Name:</label>
+            <select name="employee_id" id="employee_id">
+                <option value="Select">Select</option>
+                {% for employee in employees %}
+                <option value="{{ employee[1] }}">{{ employee[0] }} (ID: {{ employee[1] }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="submit" value="Add Employee" class="button">
+    </form>
+</div>
+{% endblock %}
