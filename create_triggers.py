@@ -51,6 +51,18 @@ def create_triggers(connection):
             END;
         END;
     '''
+
+    # update trigger for propane tank last visual check date
+    create_trigger_sql['validate_new_last_visual_check_date'] = f'''
+        CREATE TRIGGER validate_new_last_visual_check_date
+        BEFORE UPDATE ON propane_tank
+        BEGIN
+            SELECT CASE 
+                WHEN NEW.last_visual_check_date NOT LIKE '____-__-__'
+                THEN RAISE (ABORT, 'Invalid date. Date should be in yyyy-mm-dd format.')
+            END;
+        END;
+    '''
     
     email_trigger_values = {
         'validate_employee_email': ('employee', 'email'),
@@ -68,21 +80,26 @@ def create_triggers(connection):
                 END;
             END;
         '''
-
+    
     for sql in create_trigger_sql.values():
         execute_sql(connection, sql)
 
 
 def delete_triggers(connection):
     trigger_names = [
-        'validate_employee_start_date', 
+        'validate_employee_start_date'
+        'validate_propane_tank_expiration_date'
+        'validate_work_order_order_date'
+        'validate_delivery_date'
         
         'validate_employee_email',
         'validate_customer_email',
         'validate_customer_phone_email',
         'validate_propane_tank_sold_to_customer_email',
         'validate_work_order_customer_email',
-        'validate_delivery_customer_email'
+        'validate_delivery_customer_email',
+
+        'validate_new_last_visual_check_date'
     ]
 
     delete_trigger_sql = [

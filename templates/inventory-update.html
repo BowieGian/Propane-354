@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Propane 354 Inventory Update</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <form method='GET' action="/inventory"><button class="back">Back</button></form>
+    <h1 style="text-align: center">Propane 354 Inventory Update</h1>
+
+    <div class="data">
+        {% for table in tables %}
+        {{ table|safe }}
+        {% endfor %}
+    </div>
+    <br>
+    
+    {{error}}
+    <form action="/inventory/update" method="POST" style="text-align: center"> 
+    <div class="grid">
+    <table>
+        <tr>
+            <td>Serial Number:</td>
+            <td>
+                <select name="serial_number" id="serial_number"> 
+                    {% for serial_number in serial_numbers %}
+                    <option value="{{ serial_number[0] }}">{{ serial_number[0] }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+	</tr>
+        <tr>
+            <td>New Last Visual Check Date:</td>
+	    <td><input type="text" name="last_visual_check_date" id="last_visual_check_date"></td>
+        </tr>
+    </table>
+    </div>
+
+    <input type="submit" value="Update" class="button">
+    </form>
+</div>
+
+{% endblock %}
