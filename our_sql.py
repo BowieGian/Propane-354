@@ -177,10 +177,10 @@ def insert_work_order_propane_tank(connection, values):
 def insert_delivery(connection, values):
     sql = '''
         INSERT INTO delivery(
-            employee_id,
-            customer_email,
             serial_number,
+            employee_id,
             vin,
+            customer_email,
             delivery_date
         )
         VALUES(?, ?, ?, ?, ?);

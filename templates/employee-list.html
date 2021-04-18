@@ -15,6 +15,18 @@
         {% endfor %}
     </div>
     <br>
+    <form method='POST' action="/employee-list">
+        <div class="grid">
+            <label for="filter">Filter:</label>
+            <select name="filter" id="filter">
+                <option value="all">Nothing (select all)</option>
+                <option value="tank">Worked with all tanks</option>
+                <option value="truck">Worked with all trucks</option>
+            </select>
+        </div>
+        <input type="submit" value="Filter" class="button">
+    </form>
+    <br><br>
     <form method='GET' action="/employee-list/add"><button class="button">Add Employee</button></form>
     <form method='GET' action="/employee-qualification-add"><button class="button">Add Employee Qualification</button></form>
 </div>

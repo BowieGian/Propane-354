@@ -217,16 +217,47 @@ def workOrderJoin():
     df = left_join_customer_on_work_order(connection)
     return render_template('work-order-customer-name.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
 
-@app.route('/employee-list')
+@app.route('/employee-list', methods=['GET', 'POST'])
 def employeeList():
     database = 'propane354.db'
     connection = create_connection(database)
-
     test_sql = f'''
-        SELECT *
-        FROM employee
-    '''
+            SELECT *
+            FROM employee
+        '''
 
+    if request.method == 'POST':
+        filter = request.form['filter']
+
+        if filter == "all":
+            test_sql = f'''
+                SELECT *
+                FROM employee
+            '''
+        elif filter == "tank":
+            test_sql = f'''
+                SELECT *
+                FROM employee E
+                WHERE NOT EXISTS
+                   (SELECT serial_number
+                    FROM propane_tank
+                    WHERE serial_number NOT IN
+                       (SELECT serial_number
+                        FROM delivery D
+                        WHERE D.employee_id = E.id))
+            '''
+        elif filter == "truck":
+            test_sql = f'''
+                SELECT *
+                FROM employee E
+                WHERE NOT EXISTS
+                   (SELECT vin
+                    FROM truck
+                    WHERE vin NOT IN
+                       (SELECT vin
+                        FROM delivery D
+                        WHERE D.employee_id = E.id))
+            '''
     df = pd.read_sql(test_sql, connection)
 
     return render_template('employee-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
