@@ -46,11 +46,11 @@ def populate_employee_availability(connection):
 
 def populate_customer(connection):
     customers = [
-        ('JohnSmith@bigCompany.com', 'bigCompany', 25000, 'John', 'Smith', 'Sr.', 125, 25, 'Big St.', '555 555'),
-        ('WalterBiggins@smallCompany.com', 'smallCompany', 15000, 'Walter', 'Biggins', None, 493, 29, 'White Ave.', '934 135'),
-        ('AlbertWoo@smallCompany.com', 'smallCompany', 10000, 'Albert', 'Woo', None, 21, 105, 'Kings Ave.', '456 231'),
-        ('SamYang@smallCompany.com', 'bigCompany', 60000, 'Sam', 'Yang', None, 21, 452, 'Yukon St.', '862 456'),
-        ('SarahBrown@smallCompany.com', 'bigCompany', 30000, 'Sarah', 'Brown', None, 500, 45, 'Brookes Ave.', '316 789')
+        ('JohnSmith@bigCompany.com', 'bigCompany', 25000, 'John', 'Smith', 'Mr.', 125, 25, 'Big St.', '555 555'),
+        ('WalterBiggins@smallCompany.com', 'smallCompany', 15000, 'Walter', 'Biggins', 'Mr.', 493, 29, 'White Ave.', '934 135'),
+        ('AlbertWoo@smallCompany.com', 'smallCompany', 10000, 'Albert', 'Woo', 'Mr.', 21, 105, 'Kings Ave.', '456 231'),
+        ('SamYang@smallCompany.com', 'bigCompany', 60000, 'Sam', 'Yang', 'Mr.', 21, 452, 'Yukon St.', '862 456'),
+        ('SarahBrown@smallCompany.com', 'bigCompany', 30000, 'Sarah', 'Brown', 'Ms.', 500, 45, 'Brookes Ave.', '316 789')
     ]
     for customer in customers:
         insert_customer(connection, customer)
