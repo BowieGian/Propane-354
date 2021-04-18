@@ -189,9 +189,40 @@ def workOrderAdd():
     else:
         return render_template('work-order-create.html', customer_emails=customer_emails, error='')
 
-
+@app.route('/work-order/employee', methods=['GET', 'POST'])
 def workOrderEmployee():
-    return render_template('work-order-employee.html')
+    database = 'propane354.db'
+    connection = create_connection(database)
+    cursor = connection.cursor()
+    employees = cursor.execute('SELECT first_name, id FROM employee').fetchall();
+    workOrders = cursor.execute('SELECT order_number FROM work_order').fetchall();
+
+    if request.method == 'POST':
+        form = {}
+        attributes = [
+            'work_order_number', 'employee_id'
+        ]
+
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
+
+        if form["work_order_number"] == "Select" or form["employee_id"] == "Select":
+            return render_template('work-order-employee.html', employees=employees, workOrders=workOrders)
+
+        return_value = 'success'
+        new_work_order_employee = tuple(form.values())
+        return_value = insert_work_order_employee(connection, new_work_order_employee)
+
+        if (return_value != 'success'):
+            return render_template('work-order-employee.html', employees=employees, workOrders=workOrders, error=return_value)
+        else:
+            return redirect(url_for('workOrder'))
+    else:
+        return render_template('work-order-employee.html', employees=employees, workOrders=workOrders)
 
 @app.route('/work-order/propane-tank', methods=['GET', 'POST'])
 def workOrderPropaneTank():
@@ -370,7 +401,7 @@ def employeeQualificationAdd():
             else:
                 form[attribute] = None
 
-        if id == "Select":
+        if form["id"] == "Select":
             return render_template('employee-qualification-add.html', employees=employees)
 
         return_value = 'success'
