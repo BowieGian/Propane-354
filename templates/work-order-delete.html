@@ -9,11 +9,14 @@
     <form method='GET' action="/work-order"><button class="back">Back</button></form>
     <h1 style="text-align: center">Propane 354 Work Order Delete</h1>
 
-    <form action="/work-order/delete" method="POST" style="text-align: center">
+    <form action="/work-order/delete" method="POST">
+	{{ tables[0]|safe }}
+	<br>
 	<div class="data">
-            {% for table in tables %}
-            {{ table|safe }}
-            {% endfor %}
+            <div class="grid-work-order">
+                {{ tables[1]|safe }}
+                {{ tables[2]|safe }}
+            </div>
         </div>
         <div class="grid">
             <label for="order_number">Order Number:</label>
