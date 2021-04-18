@@ -216,6 +216,7 @@ def select_propane_tank(connection, group_by_attribute):
         select_propane_tank_results = group_by_aggregate_propane_tank(connection, group_by_attribute)
     return select_propane_tank_results
 
+
 def update_propane_tank_last_visual_check_date(connection, serial_number_updated_last_visual_check_date):
     sql = f'''
         UPDATE propane_tank
@@ -227,10 +228,26 @@ def update_propane_tank_last_visual_check_date(connection, serial_number_updated
         cursor = connection.cursor()
         cursor.execute(sql)
         connection.commit()
-        print(serial_number_updated_last_visual_check_date[1])
         return 'success'
     except Error as e:
         return str(e)
+
+
+def delete_work_order(connection, work_order_number):
+    sql = f'''
+        DELETE FROM work_order
+        WHERE order_number = {work_order_number};
+    '''
+    
+    try:
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        connection.commit()
+        return 'success'
+    except Error as e:
+        return str(e)    
+
+    
     
     
     
