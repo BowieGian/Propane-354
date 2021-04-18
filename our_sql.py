@@ -230,5 +230,10 @@ def update_propane_tank_last_visual_check_date(connection, serial_number_updated
     except Error as e:
         return str(e)
     
-    
-    
+# def count_active_work_order(connection):
+#     sql = f'''
+#         SELECT COUNT(*) AS `Count`
+#         FROM work_order;
+#     '''
+#     work_order_counts = pd.read_sql(sql, connection)
+#     return work_order_counts

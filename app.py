@@ -126,19 +126,23 @@ def inventoryList():
 @app.route('/work-order')
 def workOrder():
     return render_template('work-order.html')
+   
 
 @app.route('/work-order/list')
 def workOrderList():
     database = 'propane354.db'
     connection = create_connection(database)
 
-    test_sql = f'''
-        SELECT *
-        FROM work_order
-    '''
-
-    df = pd.read_sql(test_sql, connection)
-    return render_template('work-order-list.html', tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
+    active_work_orders = pd.read_sql('SELECT COUNT(*) FROM work_order', connection)
+    work_orders = pd.read_sql('SELECT * FROM work_order', connection)
+    return render_template(
+        'work-order-list.html', 
+        tables=[
+            active_work_orders.to_html(classes='data', index=False),
+            work_orders.to_html(classes='data', index=False)
+            ], 
+            titles=[active_work_orders.columns.values, work_orders.columns.values]
+    )
 
 @app.route('/work-order/create', methods=['GET', 'POST'])
 def workOrderAdd():
