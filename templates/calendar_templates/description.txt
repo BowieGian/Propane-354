@@ -1,4 +1,0 @@
-I have made some templates for the structure of a calendar, they are a bit crude, I think to improve on this, will
-require a bit of javascript knowledge that I just don't have at the present moment
-
---Daniel
