@@ -245,7 +245,23 @@ def delete_work_order(connection, work_order_number):
         connection.commit()
         return 'success'
     except Error as e:
-        return str(e)    
+        return str(e)
+
+
+def left_join_customer_on_work_order(connection):
+    sql = '''
+    SELECT
+        order_number, 
+        order_status,
+        customer_email, 
+        customer.honorific AS customer_honorific, 
+        customer.first_name AS customer_first_name, 
+        customer.last_name AS customer_last_name
+    FROM work_order
+    LEFT JOIN customer ON customer.email = work_order.customer_email;
+    '''
+    left_join_results = pd.read_sql(sql, connection)
+    return left_join_results
 
     
     
