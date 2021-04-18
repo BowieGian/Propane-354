@@ -189,6 +189,15 @@ def workOrderAdd():
     else:
         return render_template('work-order-create.html', customer_emails=customer_emails, error='')
 
+
+def workOrderEmployee():
+    return render_template('work-order-employee.html')
+
+
+def workOrderPropaneTank():
+    return render_template('work-order-propane-tank.html')
+
+
 @app.route('/work-order/delete', methods=['GET', 'POST'])
 def workOrderDelete():
     database = 'propane354.db'
