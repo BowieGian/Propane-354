@@ -5,6 +5,11 @@ from flask import Flask, render_template, url_for, request, redirect
 from our_sql import create_connection
 from sqlite3 import Error
 
+from datetime import date as dt
+import datetime
+import calendar as cd
+
+
 app = Flask(__name__)
 
 def create_connection(db_file):
@@ -151,12 +156,60 @@ def vehicles():
     else:
         return render_template('vehicles.html')
 
+
+
+
+
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
+    today = dt.today()
+    database = 'propane354.db'
+    connection = create_connection(database)
+    if (connection):
+        cursor = connection.cursor()
+    else:
+        return "Failed to create database connection."
+    
+    query = "SELECT employee_id, availability FROM employee_availability"
+    
+    cursor.execute(query)
+    
+    data = list(cursor.fetchall()) 
+    
+    new_dict = {'todo' : [], 'date' : [],} 
+    
+    events = []
+    
+    f_wkday = datetime.datetime(today.year, today.month, 1)
+    f_wkday = f_wkday.weekday()
+    days_of_week=['Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday','Saturday','Sunday']
+    for x in data:
+        
+        wkday = days_of_week.index(x[1])
+
+        cursor.execute ("SELECT first_name FROM employee WHERE id = {};".format(x[0]))
+        name = str(cursor.fetchone())
+        name = name[2:-3]
+        
+        if (f_wkday == wkday):
+            i=1
+        else:
+            if wkday-f_wkday < 0:
+                i = wkday - f_wkday + 7 + 1
+            else:
+                i = wkday - f_wkday + 1
+        
+        while i <= cd.monthrange(today.year, today.month)[1]:
+            
+            new_dict.update({'todo': name})
+            new_dict.update({'date': str(today.year) + "-" + str(today.month).zfill(2) + "-" + str(i).zfill(2)})
+            events.append(new_dict.copy())
+            i+=7
+    
     if request.method == 'POST':
         return 'Post'
     else:
-        return render_template('calendar.html')
+        return render_template('calendar.html', events = events)
 
 if __name__ == "__main__":
     app.run(debug=True)
