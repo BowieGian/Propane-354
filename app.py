@@ -189,6 +189,75 @@ def workOrderAdd():
     else:
         return render_template('work-order-create.html', customer_emails=customer_emails, error='')
 
+@app.route('/work-order/employee', methods=['GET', 'POST'])
+def workOrderEmployee():
+    database = 'propane354.db'
+    connection = create_connection(database)
+    cursor = connection.cursor()
+    employees = cursor.execute('SELECT first_name, id FROM employee').fetchall();
+    workOrders = cursor.execute('SELECT order_number FROM work_order').fetchall();
+
+    if request.method == 'POST':
+        form = {}
+        attributes = [
+            'work_order_number', 'employee_id'
+        ]
+
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
+
+        if form["work_order_number"] == "Select" or form["employee_id"] == "Select":
+            return render_template('work-order-employee.html', employees=employees, workOrders=workOrders)
+
+        return_value = 'success'
+        new_work_order_employee = tuple(form.values())
+        return_value = insert_work_order_employee(connection, new_work_order_employee)
+
+        if (return_value != 'success'):
+            return render_template('work-order-employee.html', employees=employees, workOrders=workOrders, error=return_value)
+        else:
+            return redirect(url_for('workOrder'))
+    else:
+        return render_template('work-order-employee.html', employees=employees, workOrders=workOrders)
+
+@app.route('/work-order/propane-tank', methods=['GET', 'POST'])
+def workOrderPropaneTank():
+    database = 'propane354.db'
+    connection = create_connection(database)
+    cursor = connection.cursor()
+
+    work_order_numbers = cursor.execute('SELECT order_number FROM work_order;').fetchall();
+    propane_tank_serial_number = cursor.execute('SELECT serial_number FROM propane_tank;').fetchall();
+
+    if request.method == 'POST':
+        form = {}
+        attributes = [
+            'work_order_number','propane_tank_serial_number'
+        ]
+
+        for attribute in attributes:
+            user_input = request.form[attribute]
+            if (user_input != ''):
+                form[attribute] = user_input
+            else:
+                form[attribute] = None
+        
+        return_value = 'success'
+        new_work_orders_propane_tanks = tuple(form.values())
+        return_value = insert_work_order_propane_tank(connection, new_work_orders_propane_tanks)
+        if (return_value != 'success'):
+            return render_template('work-order-propane-tank.html', work_order_numbers=work_order_numbers, propane_tank_serial_number=propane_tank_serial_number,error=return_value)
+        else:
+            return render_template('work-order-propane-tank.html', work_order_numbers=work_order_numbers, propane_tank_serial_number=propane_tank_serial_number, error='')
+    else:
+        return render_template('work-order-propane-tank.html', work_order_numbers=work_order_numbers, propane_tank_serial_number=propane_tank_serial_number, error='')
+
+
+
 @app.route('/work-order/delete', methods=['GET', 'POST'])
 def workOrderDelete():
     database = 'propane354.db'
@@ -332,7 +401,7 @@ def employeeQualificationAdd():
             else:
                 form[attribute] = None
 
-        if id == "Select":
+        if form["id"] == "Select":
             return render_template('employee-qualification-add.html', employees=employees)
 
         return_value = 'success'

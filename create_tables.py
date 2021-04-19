@@ -104,7 +104,6 @@ def create_tables(connection):
         )
     '''
 
-
     create_table_sql['work_order'] = '''
         CREATE TABLE IF NOT EXISTS work_order(
             order_number integer UNIQUE NOT NULL,
