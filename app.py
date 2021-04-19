@@ -158,7 +158,7 @@ def workOrderList():
     )
 
 @app.route('/work-order/create', methods=['GET', 'POST'])
-def workOrderAdd():
+def workOrderCreate():
     database = 'propane354.db'
     connection = create_connection(database)
     cursor = connection.cursor()
@@ -168,8 +168,8 @@ def workOrderAdd():
     if request.method == 'POST':
         form = {}
         attributes = [
-            'rush_status', 'customer_email', 'po_number', 'work_to_be_done', 'tank_size',
-            'liquid_vapour', 'qf', 'form_factor'
+            'order_number', 'customer_email', 'order_total', 'order_status', 'payment_method', 'rush_level',
+            'order_date', 'po_number', 'expected_completion_date'
         ]
 
         for attribute in attributes:
